@@ -7,7 +7,7 @@ class GraphicsWindow(pyglet.window.Window):
 	def __init__(self, engine):
 		self.screen_width = 1280
 		self.screen_height = 720
-		self.dt = 1.0/30.0
+		self.dt = 1.0/60.0
 		super(GraphicsWindow, self).__init__(self.screen_width, self.screen_height) #Set screensize
 		self.set_caption('Space Emperor')
 		
@@ -48,17 +48,16 @@ class GraphicsWindow(pyglet.window.Window):
 		x_cs = CS.get_x()
 		y_cs = CS.get_y()
 		ang_cs = CS.get_angle()
-		angle_cs_rad = math.radians(ang_cs)
-		#L_CS = math.sqrt(CS_x**2+CS_y**2)
 		mid = 4
 		self.camera.update_camera_posang(x_cs, y_cs, ang_cs)
+		pos_cam = self.camera.get_position()
 		for x_y_sprite in self.BG_sprites:
 			i = x_y_sprite[0]
 			j = x_y_sprite[1]
 			sprite = x_y_sprite[2]
 			
-			x_bos = (i-mid)*80
-			y_bos = (j-mid)*80
+			x_bos = (i-mid)*80 + (pos_cam[0]//80)*80
+			y_bos = (j-mid)*80 + (pos_cam[1]//80)*80
 			x,y,angle = self.camera.get_posang_in_view(x_bos,y_bos,0)
 			sprite.x = x
 			sprite.y = y
@@ -73,7 +72,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.position_label.draw()
 		self.velocity_label.draw()
 		self.orientation_sprite.draw()
-		self.cross_sprite.draw()
+		#self.cross_sprite.draw()
 		self.CS_sprite.draw()
 		
 	def center_image(self, image):
@@ -96,9 +95,9 @@ class GraphicsWindow(pyglet.window.Window):
 		self.center_image(self.orientation_image)
 		self.orientation_sprite = pyglet.sprite.Sprite(img=self.orientation_image, x=40, y=40)
 		
-		self.cross_image = pyglet.resource.image('cross_10x10.png')
-		self.center_image(self.cross_image)
-		self.cross_sprite = pyglet.sprite.Sprite(img=self.cross_image, x=280+360, y=360)
+		#self.cross_image = pyglet.resource.image('cross_10x10.png')
+		#self.center_image(self.cross_image)
+		#self.cross_sprite = pyglet.sprite.Sprite(img=self.cross_image, x=280+360, y=360)
 		
 		self.viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
 		#self.center_image(self.cross_image)

@@ -10,6 +10,9 @@ class Camera():
 		print(self.x_base, self.y_base)
 		self.angle = 0
 		
+	def get_position(self):
+		return [self.x, self.y]
+		
 	def update_camera_posang(self, x_cs, y_cs, angle):
 		self.x = x_cs
 		self.y = y_cs
