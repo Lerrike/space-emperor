@@ -6,12 +6,14 @@ class CommanderShip():
 		self.x = 0
 		self.y = 0
 		self.ang = 0 #90
+		self.vel = 0
 		self.x_vel = 0
 		self.y_vel = 0
 		self.ang_vel = 0
 		
-		self.acc = 16*2
+		self.acc = 0
 		
+
 	def get_x(self):
 		return self.x
 		
@@ -43,6 +45,26 @@ class CommanderShip():
 		self.update_angle()
 		self.update_position()
 		
+	def update_position(self):
+		self.update_speed()
+		self.x += self.dt * self.x_vel
+		self.y += self.dt * self.y_vel 
+		
+	def update_speed(self):
+		if self.acc >= 0:
+			self.x_vel += math.sin(math.radians(self.ang)) * self.acc * self.dt
+			self.y_vel += math.cos(math.radians(self.ang)) * self.acc * self.dt
+		else:
+			angle_of_velocity = math.atan2(self.y_vel,self.x_vel)
+			if math.fabs(self.x_vel) > 1:
+				self.x_vel += math.cos(angle_of_velocity) * self.acc * self.dt
+			else:
+				self.x_vel = 0
+			if math.fabs(self.y_vel) > 1:
+				self.y_vel += math.sin(angle_of_velocity) * self.acc * self.dt
+			else:
+				self.y_vel = 0
+		
 	def update_angle(self):
 		self.ang += self.ang_vel * self.dt
 		if self.ang > 180:
@@ -50,17 +72,12 @@ class CommanderShip():
 		elif self.ang < -180:
 			self.ang += 360
 			
-	def accelerate(self):
-		#self.x_vel += math.cos(self.ang) * self.acc * self.dt
-		#self.y_vel += math.sin(self.ang) * self.acc * self.dt
-		self.x_vel = math.sin(math.radians(self.ang))*16*6
-		self.y_vel = math.cos(math.radians(self.ang))*16*6
+	def acc_action(self):
+		self.acc = 16*2 
+		
+	def no_acc_action(self):
+		self.acc = 0
 		
 	def decelerate(self):
-		self.x_vel = 0
-		self.y_vel = 0
-		
-	def update_position(self):
-		self.x += self.x_vel * self.dt
-		self.y += self.y_vel * self.dt
+		self.acc = -16*2
 		

@@ -4,10 +4,10 @@ from keybindings import KeyBindings
 from camera import Camera
 
 class GraphicsWindow(pyglet.window.Window):
-	def __init__(self, engine):
+	def __init__(self, dt, engine):
 		self.screen_width = 1280
 		self.screen_height = 720
-		self.dt = 1.0/60.0
+		self.dt = dt
 		super(GraphicsWindow, self).__init__(self.screen_width, self.screen_height) #Set screensize
 		self.set_caption('Space Emperor')
 		

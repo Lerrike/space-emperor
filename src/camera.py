@@ -7,7 +7,6 @@ class Camera():
 		self.y = 0
 		self.x_base = (width-height)/2 + self.size/2
 		self.y_base = self.size/2
-		print(self.x_base, self.y_base)
 		self.angle = 0
 		
 	def get_position(self):
