@@ -3,7 +3,7 @@ from generalspaceobject import GeneralSpaceObject
 
 class MobileSpaceObject(GeneralSpaceObject):
 	def __init__(self,dt):
-		super(MobileSpaceObject, self).__init__(dt)
+		super().__init__(dt)
 		self.x_vel = 0
 		self.y_vel = 0
 		self.ang_vel = 0

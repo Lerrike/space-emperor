@@ -18,7 +18,6 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		self.update = self.update
 		pyglet.clock.schedule_interval(self.update, self.dt)
-		
 		self.camera = Camera(self.screen_width, self.screen_height)
 		
 	def update(self, dt):
@@ -74,6 +73,8 @@ class GraphicsWindow(pyglet.window.Window):
 		self.orientation_sprite.draw()
 		#self.cross_sprite.draw()
 		self.CS_sprite.draw()
+		if self.engine.commandership.acc > 0:
+			self.exhaus_sprite.draw()
 		
 	def center_image(self, image):
 		image.anchor_x = image.width // 2
@@ -87,21 +88,27 @@ class GraphicsWindow(pyglet.window.Window):
 		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40)
 		
 		self.init_background()
-		self.CS_image = pyglet.resource.image('commander_ship_16x16.png')
-		self.center_image(self.CS_image)
-		self.CS_sprite = pyglet.sprite.Sprite(img=self.CS_image, x=280+360, y=360)
+		CS_image = pyglet.resource.image('commander_ship_16x16.png')
+		self.center_image(CS_image)
+		self.CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360)
 		
-		self.orientation_image = pyglet.resource.image('orientation_80x80.png')
-		self.center_image(self.orientation_image)
-		self.orientation_sprite = pyglet.sprite.Sprite(img=self.orientation_image, x=40, y=40)
+		orientation_image = pyglet.resource.image('orientation_80x80.png')
+		self.center_image(orientation_image)
+		self.orientation_sprite = pyglet.sprite.Sprite(img=orientation_image, x=40, y=40)
 		
 		#self.cross_image = pyglet.resource.image('cross_10x10.png')
 		#self.center_image(self.cross_image)
 		#self.cross_sprite = pyglet.sprite.Sprite(img=self.cross_image, x=280+360, y=360)
 		
-		self.viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
-		#self.center_image(self.cross_image)
-		self.viewol_sprite = pyglet.sprite.Sprite(img=self.viewol_image, x=0, y=0)
+		viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
+		self.viewol_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0)
+		
+		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
+		exhaust_2_image = pyglet.resource.image('exhaust_fumes_2_4x6.png')
+		self.center_image(exhaust_1_image)
+		x = self.CS_sprite.x
+		y = self.CS_sprite.y - 8 - 3
+		self.exhaus_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y)
 	
 	def init_background(self):
 		#Space background
