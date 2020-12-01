@@ -3,9 +3,8 @@ from gameengine import GameEngine
 from graphicswindow import GraphicsWindow
 
 def main():
-	dt = 1.0/60.0 #update interval
-	engine = GameEngine(dt)
-	window = GraphicsWindow(dt, engine)
+	engine = GameEngine()
+	window = GraphicsWindow(engine)
 	pyglet.app.run()
 	
 	return 0
