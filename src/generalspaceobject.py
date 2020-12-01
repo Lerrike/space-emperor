@@ -6,6 +6,7 @@ class GeneralSpaceObject():
 		self.x = 0
 		self.y = 0
 		self.ang = 0
+		self.sprite = 0
 		
 	def get_x(self):
 		return self.x
@@ -15,3 +16,9 @@ class GeneralSpaceObject():
 		
 	def get_angle(self):
 		return self.ang
+		
+	def get_sprite(self):
+		return self.sprite
+		
+	def set_sprite(self, sprite):
+		self.sprite = sprite

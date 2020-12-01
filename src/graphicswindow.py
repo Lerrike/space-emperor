@@ -12,13 +12,13 @@ class GraphicsWindow(pyglet.window.Window):
 		self.set_caption('Space Emperor')
 		
 		self.engine = engine
+		self.camera = Camera(self.screen_width, self.screen_height)
 		
 		self.init_graphics()
 		KeyBindings(self, self.engine.commandership)
 		
 		self.update = self.update
 		pyglet.clock.schedule_interval(self.update, self.dt)
-		self.camera = Camera(self.screen_width, self.screen_height)
 		
 	def update(self, dt):
 		self.engine.commandership.update_angle_position()
@@ -72,7 +72,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.velocity_label.draw()
 		self.orientation_sprite.draw()
 		#self.cross_sprite.draw()
-		self.CS_sprite.draw()
+		self.engine.commandership.get_sprite().draw()
 		if self.engine.commandership.acc > 0:
 			self.exhaus_sprite.draw()
 		
@@ -91,6 +91,7 @@ class GraphicsWindow(pyglet.window.Window):
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
 		self.CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360)
+		self.engine.commandership.set_sprite(self.CS_sprite)
 		
 		orientation_image = pyglet.resource.image('orientation_80x80.png')
 		self.center_image(orientation_image)
