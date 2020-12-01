@@ -23,6 +23,7 @@ class GraphicsWindow(pyglet.window.Window):
 	def update(self, dt):
 		self.engine.commandership.update_angle_position()
 		self.update_background()
+		self.update_space_objects()
 		self.update_text()
 		self.update_orientation()
 		
@@ -62,11 +63,23 @@ class GraphicsWindow(pyglet.window.Window):
 			sprite.y = y
 			sprite.rotation = angle
 			
+	def update_space_objects(self):
+		homeplanet = self.engine.homeplanet
+		sprite = homeplanet.get_sprite()
+		if self.camera.is_on_view(homeplanet):
+			x = homeplanet.get_x()
+			y = homeplanet.get_y()
+			angle = homeplanet.get_angle()
+			x, y, angle = self.camera.get_posang_in_view(x, y, angle)
+			sprite.x = x
+			sprite.y = y
+			sprite.rotation = angle
 	
 	def on_draw(self):
 		self.clear()
 		
 		self.batch_BG.draw()
+		self.homeplanet_sprite.draw()
 		self.viewol_sprite.draw()
 		self.position_label.draw()
 		self.velocity_label.draw()
@@ -74,7 +87,7 @@ class GraphicsWindow(pyglet.window.Window):
 		#self.cross_sprite.draw()
 		self.engine.commandership.get_sprite().draw()
 		if self.engine.commandership.acc > 0:
-			self.exhaus_sprite.draw()
+			self.exhaust_sprite.draw()
 		
 	def center_image(self, image):
 		image.anchor_x = image.width // 2
@@ -109,7 +122,12 @@ class GraphicsWindow(pyglet.window.Window):
 		self.center_image(exhaust_1_image)
 		x = self.CS_sprite.x
 		y = self.CS_sprite.y - 8 - 3
-		self.exhaus_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y)
+		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y)
+		
+		homeplanet_image = pyglet.resource.image('homeplanet_360x360.png')
+		self.center_image(homeplanet_image)
+		self.homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image)
+		self.engine.homeplanet.set_sprite(self.homeplanet_sprite)
 	
 	def init_background(self):
 		#Space background

@@ -60,10 +60,10 @@ class MobileSpaceObject(GeneralSpaceObject):
 		
 			
 	def acc_action(self):
-		self.acc = 16*2 
+		self.acc = 2
 		
 	def no_acc_action(self):
 		self.acc = 0
 		
 	def decelerate(self):
-		self.acc = -16*2
+		self.acc = -2

@@ -28,3 +28,6 @@ class Camera():
 		x_view = self.x_base + L*math.cos(dang)
 		y_view = self.y_base + L*math.sin(dang)
 		return x_view, y_view, angle_view
+		
+	def is_on_view(self, object):
+		return 1
