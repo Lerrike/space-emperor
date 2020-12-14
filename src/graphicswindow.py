@@ -118,13 +118,19 @@ class GraphicsWindow(pyglet.window.Window):
 		y = self.CS_sprite.y - 8 - 3
 		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y)
 		
-		
 	def init_static_objects(self):
 		self.batch_static = pyglet.graphics.Batch()
 		homeplanet_image = pyglet.resource.image('homeplanet_360x360.png')
 		self.center_image(homeplanet_image)
 		homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_static)
 		self.engine.homeplanet.set_sprite(homeplanet_sprite)
+		
+	def init_secondary_static_objects(self):
+		pass
+		#self.batch_sec_static = pyglet.graphics.Batch()
+		#base0_image = pyglet.resource.image('base_lvl0_60x60.png')
+		#self.center_image(base0_image)
+		#base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_sec_static)
 	
 	def init_UI_overlay(self):
 		self.batch_UI = pyglet.graphics.Batch()
