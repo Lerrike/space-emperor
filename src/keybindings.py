@@ -1,4 +1,5 @@
 from pyglet.window import key
+from pyglet import clock
 
 def KeyBindings(window, commander_ship):
 	@window.event

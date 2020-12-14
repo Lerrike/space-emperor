@@ -41,6 +41,7 @@ class GraphicsWindow(pyglet.window.Window):
 		ang_vel = CS.get_ang_vel()
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, ang_vel={}".format(x_vel,y_vel,ang_vel)
+		self.fps_label.text = "fps: {:d}".format(int(pyglet.clock.get_fps()))
 	
 	
 	def update_background(self):
@@ -83,6 +84,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.viewol_sprite.draw()
 		self.position_label.draw()
 		self.velocity_label.draw()
+		self.fps_label.draw()
 		self.orientation_sprite.draw()
 		#self.cross_sprite.draw()
 		self.engine.commandership.get_sprite().draw()
@@ -99,6 +101,7 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20)
 		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40)
+		self.fps_label = pyglet.text.Label(text="fps: 0", x=10, y=720-60)
 		
 		self.init_background()
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
