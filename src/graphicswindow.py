@@ -22,7 +22,7 @@ class GraphicsWindow(pyglet.window.Window):
 		
 	def update(self, dt):
 		self.engine.commandership.update_angle_position()
-		self.update_background()
+		self.update_view()
 		self.update_space_objects()
 		self.update_text()
 		self.update_orientation()
@@ -55,16 +55,20 @@ class GraphicsWindow(pyglet.window.Window):
 		ang_vel = CS.get_ang_vel()
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, ang_vel={}".format(x_vel,y_vel,ang_vel)
-	
-	
-	def update_background(self):
+		
+	def update_view(self):
 		CS = self.engine.commandership
 		x_cs = CS.get_x()
 		y_cs = CS.get_y()
 		ang_cs = CS.get_angle()
-		mid = 4
 		self.camera.update_camera_posang(x_cs, y_cs, ang_cs)
+		
+		self.update_background(x_cs, y_cs, ang_cs)
+	
+	
+	def update_background(self, x_cs, y_cs, ang_cs):
 		pos_cam = self.camera.get_position()
+		mid = 4
 		for x_y_sprite in self.BG_sprites:
 			i = x_y_sprite[0]
 			j = x_y_sprite[1]
@@ -78,16 +82,16 @@ class GraphicsWindow(pyglet.window.Window):
 			sprite.rotation = angle
 			
 	def update_space_objects(self):
-		homeplanet = self.engine.homeplanet
-		sprite = homeplanet.get_sprite()
-		if self.camera.is_on_view(homeplanet):
-			x = homeplanet.get_x()
-			y = homeplanet.get_y()
-			angle = homeplanet.get_angle()
-			x, y, angle = self.camera.get_posang_in_view(x, y, angle)
-			sprite.x = x
-			sprite.y = y
-			sprite.rotation = angle
+		for object in self.engine.get_objects():
+			sprite = object.get_sprite()
+			if self.camera.is_on_view(object):
+				x = object.get_x()
+				y = object.get_y()
+				angle = object.get_angle()
+				x, y, angle = self.camera.get_posang_in_view(x, y, angle)
+				sprite.x = x
+				sprite.y = y
+				sprite.rotation = angle
 	
 	
 		
@@ -103,6 +107,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40)
 		
 		self.init_background()
+		
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
 		self.CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360)
