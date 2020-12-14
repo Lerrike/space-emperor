@@ -31,7 +31,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.clear()
 		
 		self.batch_BG.draw()
-		self.homeplanet_sprite.draw()
+		self.batch_static.draw()
 		self.engine.commandership.get_sprite().draw()
 		if self.engine.commandership.acc > 0:
 			self.exhaust_sprite.draw()
@@ -100,6 +100,8 @@ class GraphicsWindow(pyglet.window.Window):
 		pyglet.resource.reindex()
 		
 		self.init_background()
+		self.init_UI_overlay()
+		self.init_static_objects()
 		
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
@@ -109,14 +111,6 @@ class GraphicsWindow(pyglet.window.Window):
 		viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
 		self.view_overlay_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0)
 		
-		self.batch_UI = pyglet.graphics.Batch()
-		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20, batch = self.batch_UI)
-		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40, batch = self.batch_UI)
-		
-		orientation_image = pyglet.resource.image('orientation_80x80.png')
-		self.center_image(orientation_image)
-		self.orientation_sprite = pyglet.sprite.Sprite(img=orientation_image, x=40, y=40, batch = self.batch_UI)
-		
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
 		exhaust_2_image = pyglet.resource.image('exhaust_fumes_2_4x6.png')
 		self.center_image(exhaust_1_image)
@@ -124,10 +118,22 @@ class GraphicsWindow(pyglet.window.Window):
 		y = self.CS_sprite.y - 8 - 3
 		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y)
 		
+		
+	def init_static_objects(self):
+		self.batch_static = pyglet.graphics.Batch()
 		homeplanet_image = pyglet.resource.image('homeplanet_360x360.png')
 		self.center_image(homeplanet_image)
-		self.homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image)
-		self.engine.homeplanet.set_sprite(self.homeplanet_sprite)
+		homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_static)
+		self.engine.homeplanet.set_sprite(homeplanet_sprite)
+	
+	def init_UI_overlay(self):
+		self.batch_UI = pyglet.graphics.Batch()
+		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20, batch = self.batch_UI)
+		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40, batch = self.batch_UI)
+		
+		orientation_image = pyglet.resource.image('orientation_80x80.png')
+		self.center_image(orientation_image)
+		self.orientation_sprite = pyglet.sprite.Sprite(img=orientation_image, x=40, y=40, batch = self.batch_UI)
 	
 	def init_background(self):
 		#Space background
@@ -138,10 +144,5 @@ class GraphicsWindow(pyglet.window.Window):
 		mid = 5
 		for i in range(0, 10):
 			for j in range(0, 10):
-				#x_i = 280 - 40 + i * 80
-				#y_i = -40 + j * 80
-				#x_i = 280 + 360 + (i-mid) * 80
-				#y_i = 360 + (j-mid) * 80
-				#sprite = pyglet.sprite.Sprite(img=self.BG_image, x=x_i, y=y_i, batch=self.batch_BG)
 				sprite = pyglet.sprite.Sprite(img=self.BG_image, batch=self.batch_BG)
 				self.BG_sprites.append([i,j,sprite])
