@@ -14,8 +14,11 @@ class GraphicsWindow(pyglet.window.Window):
 		self.engine = engine
 		self.camera = Camera(self.screen_width, self.screen_height)
 		
-		self.batch = pyglet.graphics.Batch()
+		self.batch_map = pyglet.graphics.Batch()
+		self.batch_mobile = pyglet.graphics.Batch()
+		self.batch_UI = pyglet.graphics.Batch()
 		self.init_graphics()
+		
 		KeyBindings(self, self.engine.commandership)
 		
 		self.update = self.update
@@ -31,8 +34,11 @@ class GraphicsWindow(pyglet.window.Window):
 		
 	def on_draw(self):
 		self.clear()
-		self.batch.draw()
+		self.batch_map.draw()
 		self.draw_coditional()
+		self.batch_mobile.draw()
+		self.view_overlay_sprite.draw()
+		self.batch_UI.draw()
 		
 	def draw_coditional(self):
 		if self.engine.commandership.get_acc() > 0:
@@ -104,22 +110,23 @@ class GraphicsWindow(pyglet.window.Window):
 		self.init_static_objects(order)
 		order = pyglet.graphics.OrderedGroup(2)
 		self.init_secondary_static_objects(order)
-		order = pyglet.graphics.OrderedGroup(3)
-		self.init_conditional(order)
-		order = pyglet.graphics.OrderedGroup(4)
+		
+		self.init_conditional()
+		
+		order = pyglet.graphics.OrderedGroup(0)
 		self.init_mobile_objects(order)
 		
-		order = pyglet.graphics.OrderedGroup(5)
+		order = pyglet.graphics.OrderedGroup(1)
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
-		CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360, batch=self.batch, group=order)
+		CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360, batch=self.batch_mobile, group=order)
 		self.engine.commandership.set_sprite(CS_sprite)
 		
-		order = pyglet.graphics.OrderedGroup(6)
+		order = pyglet.graphics.OrderedGroup(0)
 		viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
-		self.view_overlay_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0, batch=self.batch, group=order)
+		self.view_overlay_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0, group=order)
 		
-		order = pyglet.graphics.OrderedGroup(7)
+		order = pyglet.graphics.OrderedGroup(0)
 		self.init_UI_overlay(order)
 		
 	def init_background(self, order):
@@ -132,7 +139,7 @@ class GraphicsWindow(pyglet.window.Window):
 		for i in range(0, 10):
 			for j in range(0, 10):
 				#sprite = pyglet.sprite.Sprite(img=self.BG_image, batch=self.batch_BG, group=order)
-				sprite = pyglet.sprite.Sprite(img=self.BG_image, batch=self.batch, group=order)
+				sprite = pyglet.sprite.Sprite(img=self.BG_image, batch=self.batch_map, group=order)
 				self.BG_sprites.append([i,j,sprite])
 		
 	def init_static_objects(self, order):
@@ -140,7 +147,7 @@ class GraphicsWindow(pyglet.window.Window):
 		homeplanet_image = pyglet.resource.image('homeplanet_360x360.png')
 		self.center_image(homeplanet_image)
 		#homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_static)
-		homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch, group=order)
+		homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_map, group=order)
 		self.engine.homeplanet.set_sprite(homeplanet_sprite)
 		
 	def init_secondary_static_objects(self, order):
@@ -148,9 +155,9 @@ class GraphicsWindow(pyglet.window.Window):
 		base0_image = pyglet.resource.image('base_lvl0_60x60.png')
 		self.center_image(base0_image)
 		#base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_sec_static)
-		base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_sec_static, group=order)
+		base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_map, group=order)
 		
-	def init_conditional(self, order):
+	def init_conditional(self):
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
 		exhaust_2_image = pyglet.resource.image('exhaust_fumes_2_4x6.png')
 		self.center_image(exhaust_1_image)
@@ -165,10 +172,10 @@ class GraphicsWindow(pyglet.window.Window):
 	
 	def init_UI_overlay(self, order):
 		self.batch_UI = pyglet.graphics.Batch()
-		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20, batch = self.batch,group=order)
-		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40, batch = self.batch,group=order)
+		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20, batch = self.batch_UI,group=order)
+		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40, batch = self.batch_UI,group=order)
 		
 		orientation_image = pyglet.resource.image('orientation_80x80.png')
 		self.center_image(orientation_image)
-		self.orientation_sprite = pyglet.sprite.Sprite(img=orientation_image, x=40, y=40, batch = self.batch, group=order)
+		self.orientation_sprite = pyglet.sprite.Sprite(img=orientation_image, x=40, y=40, batch = self.batch_UI, group=order)
 	
