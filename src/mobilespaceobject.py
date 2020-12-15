@@ -18,6 +18,9 @@ class MobileSpaceObject(GeneralSpaceObject):
 	def get_ang_vel(self):
 		return self.ang_vel
 		
+	def get_acc(self):
+		return self.acc
+		
 	def update_angle_position(self):
 		self.update_angle()
 		self.update_position()
