@@ -19,10 +19,13 @@ class GraphicsWindow(pyglet.window.Window):
 		self.batch_UI = pyglet.graphics.Batch()
 		self.init_graphics()
 		
-		KeyBindings(self, self.engine.commandership)
+		self.key_handler = pyglet.window.key.KeyStateHandler()
+		self.push_handlers(self.key_handler)
+		#KeyBindings(self, self.engine.commandership)
 		
 		update_fun = self.update_world
 		pyglet.clock.schedule_interval(update_fun, self.dt)
+		#clk = clock.get_default()
 		
 		
 	def update_world(self, dt):
@@ -33,6 +36,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.update_text()
 		self.update_orientation()
 		
+		self.keybindings()
 		
 	def on_draw(self):
 		self.clear()
@@ -41,6 +45,29 @@ class GraphicsWindow(pyglet.window.Window):
 		self.batch_mobile.draw()
 		self.view_overlay_sprite.draw()
 		self.batch_UI.draw()
+		
+	def keybindings(self):
+		commandership = self.engine.commandership
+		up_pressed = self.key_handler[pyglet.window.key.UP]
+		down_pressed = self.key_handler[pyglet.window.key.DOWN]
+		left_pressed = self.key_handler[pyglet.window.key.LEFT]
+		rigt_pressed = self.key_handler[pyglet.window.key.RIGHT]
+		
+		if up_pressed:
+			commandership.acc_action()
+		elif down_pressed:
+			commandership.decelerate()
+		else:
+			commandership.no_acc_action()
+		
+		if (left_pressed and rigt_pressed):
+			commandership.stop_rotation()
+		elif left_pressed:
+			commandership.turn_left()
+		elif rigt_pressed:
+			commandership.turn_right()
+		else:
+			commandership.stop_rotation()
 		
 	def draw_coditional(self):
 		if self.engine.commandership.get_acc() > 0:
