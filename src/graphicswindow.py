@@ -21,16 +21,18 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		KeyBindings(self, self.engine.commandership)
 		
-		update_fun = self.update
+		update_fun = self.update_world
 		pyglet.clock.schedule_interval(update_fun, self.dt)
 		
 		
-	def update(self, dt):
+	def update_world(self, dt):
 		self.engine.commandership.update_angle_position()
-		self.update_view()
 		self.update_space_objects()
+		
+		self.update_view()
 		self.update_text()
 		self.update_orientation()
+		
 		
 	def on_draw(self):
 		self.clear()
@@ -109,7 +111,7 @@ class GraphicsWindow(pyglet.window.Window):
 		order = pyglet.graphics.OrderedGroup(1)
 		self.init_static_objects(order)
 		order = pyglet.graphics.OrderedGroup(2)
-		#self.init_secondary_static_objects(order)
+		self.init_secondary_static_objects(order)
 		
 		self.init_conditional()
 		
@@ -124,9 +126,9 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		order = pyglet.graphics.OrderedGroup(0)
 		viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
-		self.view_overlay_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0, group=order)
+		self.view_overlay_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0,batch = self.batch_UI, group=order)
 		
-		order = pyglet.graphics.OrderedGroup(0)
+		order = pyglet.graphics.OrderedGroup(1)
 		self.init_UI_overlay(order)
 		
 	def init_background(self, order):
@@ -146,7 +148,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.batch_static = pyglet.graphics.Batch()
 		homeplanet_image = pyglet.resource.image('homeplanet_360x360.png')
 		self.center_image(homeplanet_image)
-		#homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_static)
+		homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_static)
 		self.homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_map, group=order)
 		self.engine.homeplanet.set_sprite(self.homeplanet_sprite)
 		
@@ -154,7 +156,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.batch_sec_static = pyglet.graphics.Batch()
 		base0_image = pyglet.resource.image('base_lvl0_60x60.png')
 		self.center_image(base0_image)
-		#base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_sec_static)
+		base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_sec_static)
 		self.base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_map, group=order)
 		
 	def init_conditional(self):
@@ -171,9 +173,8 @@ class GraphicsWindow(pyglet.window.Window):
 		pass
 	
 	def init_UI_overlay(self, order):
-		self.batch_UI = pyglet.graphics.Batch()
-		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20, batch = self.batch_UI,group=order)
-		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40, batch = self.batch_UI,group=order)
+		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20,batch = self.batch_UI, group=order)
+		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40,batch = self.batch_UI, group=order)
 		
 		orientation_image = pyglet.resource.image('orientation_80x80.png')
 		self.center_image(orientation_image)

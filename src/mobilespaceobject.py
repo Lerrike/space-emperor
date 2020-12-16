@@ -2,12 +2,13 @@ import math
 from generalspaceobject import GeneralSpaceObject
 
 class MobileSpaceObject(GeneralSpaceObject):
-	def __init__(self,dt):
-		super().__init__(dt)
+	def __init__(self):
+		super().__init__()
 		self.x_vel = 0
 		self.y_vel = 0
 		self.ang_vel = 0
 		self.acc = 0
+		self.dt = 1/30.0
 		
 	def get_x_vel(self):
 		return self.x_vel
