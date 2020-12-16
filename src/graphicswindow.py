@@ -21,8 +21,8 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		KeyBindings(self, self.engine.commandership)
 		
-		self.update = self.update
-		pyglet.clock.schedule_interval(self.update, self.dt)
+		update_fun = self.update
+		pyglet.clock.schedule_interval(update_fun, self.dt)
 		
 		
 	def update(self, dt):
@@ -109,7 +109,7 @@ class GraphicsWindow(pyglet.window.Window):
 		order = pyglet.graphics.OrderedGroup(1)
 		self.init_static_objects(order)
 		order = pyglet.graphics.OrderedGroup(2)
-		self.init_secondary_static_objects(order)
+		#self.init_secondary_static_objects(order)
 		
 		self.init_conditional()
 		
@@ -119,8 +119,8 @@ class GraphicsWindow(pyglet.window.Window):
 		order = pyglet.graphics.OrderedGroup(1)
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
-		CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360, batch=self.batch_mobile, group=order)
-		self.engine.commandership.set_sprite(CS_sprite)
+		self.CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360, batch=self.batch_mobile, group=order)
+		self.engine.commandership.set_sprite(self.CS_sprite)
 		
 		order = pyglet.graphics.OrderedGroup(0)
 		viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
@@ -147,15 +147,15 @@ class GraphicsWindow(pyglet.window.Window):
 		homeplanet_image = pyglet.resource.image('homeplanet_360x360.png')
 		self.center_image(homeplanet_image)
 		#homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_static)
-		homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_map, group=order)
-		self.engine.homeplanet.set_sprite(homeplanet_sprite)
+		self.homeplanet_sprite = pyglet.sprite.Sprite(img=homeplanet_image, batch = self.batch_map, group=order)
+		self.engine.homeplanet.set_sprite(self.homeplanet_sprite)
 		
 	def init_secondary_static_objects(self, order):
 		self.batch_sec_static = pyglet.graphics.Batch()
 		base0_image = pyglet.resource.image('base_lvl0_60x60.png')
 		self.center_image(base0_image)
 		#base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_sec_static)
-		base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_map, group=order)
+		self.base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_map, group=order)
 		
 	def init_conditional(self):
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
