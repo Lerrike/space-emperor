@@ -8,7 +8,7 @@ class MobileSpaceObject(GeneralSpaceObject):
 		self.y_vel = 0
 		self.ang_vel = 0
 		self.acc = 0
-		self.dt = 1/30.0
+		self.dt = 1/15.0
 		
 	def get_x_vel(self):
 		return self.x_vel

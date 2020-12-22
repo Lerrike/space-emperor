@@ -30,9 +30,8 @@ class GraphicsWindow(pyglet.window.Window):
 		
 	def update_world(self, dt):
 		self.engine.commandership.update_angle_position()
-		self.update_space_objects()
-		
 		self.update_view()
+		self.update_space_objects()
 		self.update_text()
 		self.update_orientation()
 		
