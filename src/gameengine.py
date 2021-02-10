@@ -31,9 +31,9 @@ class GameEngine():
 	def calc_range_do_action(self):
 		for object in self.interactable_objects:
 			if self.in_closerange(self.commandership, object):
-				object.set_in_closerange(True)
+				self.commandership.set_object_in_closerange(object)
 			else:
-				object.set_in_closerange(False)
+				self.commandership.set_object_in_closerange(0)
 		
 	def in_closerange(self, object1, object2):
 		if math.dist(object1.get_pos(), object2.get_pos()) <= 30:
@@ -48,4 +48,6 @@ class GameEngine():
 		pass
 		
 	def action(self):
-		pass
+		object = self.commandership.get_object_in_closerange()
+		if object:
+			object.interact()

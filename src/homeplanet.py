@@ -1,5 +1,5 @@
 from staticspaceobject import StaticSpaceObject
-from interactableobject import InteractableObject
+from base import Base
 
 class HomePlanet(StaticSpaceObject):
 	def __init__(self, all_objects_list, interactable_list):
@@ -10,7 +10,7 @@ class HomePlanet(StaticSpaceObject):
 		self.level = 0
 		self.level_sprites = []
 		
-		self.base = InteractableObject(self.x,self.y)
+		self.base = Base(self.x,self.y, self)
 		all_objects_list.append(self.base)
 		interactable_list.append(self.base)
 		
@@ -21,6 +21,6 @@ class HomePlanet(StaticSpaceObject):
 		return self.base
 		
 	def upgrade_level(self):
-		if level < 6:
+		if self.level < 1:
 			self.level += 1
 			

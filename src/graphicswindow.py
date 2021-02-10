@@ -58,6 +58,7 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		if up_pressed:
 			commandership.acc_action()
+			self.exhaust_sprite.visible = True
 		elif down_pressed:
 			speed = math.fabs(commandership.get_x_vel()) + math.fabs(commandership.get_y_vel())
 			if speed == 0 and self.down_mem == 0:
@@ -65,8 +66,10 @@ class GraphicsWindow(pyglet.window.Window):
 			else:
 				commandership.decelerate()
 				self.down_mem = 1
+			self.exhaust_sprite.visible = False
 		else:
 			commandership.no_acc_action()
+			self.exhaust_sprite.visible = False
 			self.down_mem = 0
 		
 		if (left_pressed and right_pressed):
@@ -79,15 +82,15 @@ class GraphicsWindow(pyglet.window.Window):
 			commandership.stop_rotation()
 		
 	def draw_coditional(self):
-		if self.engine.commandership.get_acc() > 0:
-			self.exhaust_sprite.draw()
-		for object in self.engine.get_interactable_objects():
-			if object.is_in_closerange():
-				[x, y] = object.get_pos()
-				x, y, angle = self.camera.get_posang_in_view(x, y, 0)
-				self.act_pos_sprite.x = x
-				self.act_pos_sprite.y = y
-				self.act_pos_sprite.draw()
+		object = self.engine.commandership.get_object_in_closerange()
+		if object:
+			[x, y] = object.get_pos()
+			x, y, angle = self.camera.get_posang_in_view(x, y, 0)
+			self.act_pos_sprite.x = x
+			self.act_pos_sprite.y = y
+			self.act_pos_sprite.visible = True
+		else:
+			self.act_pos_sprite.visible = False
 		
 	def update_orientation(self):
 		#Negative, because rotation in opposite direction
@@ -157,12 +160,13 @@ class GraphicsWindow(pyglet.window.Window):
 		order = pyglet.graphics.OrderedGroup(2)
 		self.init_interactable_objects(order)
 		
-		self.init_conditional()
-		
 		order = pyglet.graphics.OrderedGroup(0)
-		self.init_mobile_objects(order)
+		self.init_conditional(order)
 		
 		order = pyglet.graphics.OrderedGroup(1)
+		self.init_mobile_objects(order)
+		
+		order = pyglet.graphics.OrderedGroup(2)
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
 		self.CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360, batch=self.batch_mobile, group=order)
@@ -200,9 +204,14 @@ class GraphicsWindow(pyglet.window.Window):
 		base0_image = pyglet.resource.image('base_lvl0_60x60.png')
 		self.center_image(base0_image)
 		base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_map, group=order)
-		self.engine.homeplanet.base.set_sprite(base0_sprite)
+		self.engine.homeplanet.base.set_level_sprite(base0_sprite)
 		
-	def init_conditional(self):
+		base1_image = pyglet.resource.image('base_lvl1_60x60.png')
+		self.center_image(base1_image)
+		base1_sprite = pyglet.sprite.Sprite(img=base1_image, batch = self.batch_map, group=order)
+		self.engine.homeplanet.base.set_level_sprite(base1_sprite)
+		
+	def init_conditional(self, order):
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
 		exhaust_2_image = pyglet.resource.image('exhaust_fumes_2_4x6.png')
 		self.center_image(exhaust_1_image)
@@ -210,7 +219,7 @@ class GraphicsWindow(pyglet.window.Window):
 		y = self.engine.commandership.get_y() - 8 - 3
 		angle = self.engine.commandership.get_angle()
 		x,y,angle = self.camera.get_posang_in_view(x, y, angle)
-		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y)
+		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y, batch=self.batch_mobile, group=order)
 		
 		action_image = pyglet.resource.image('action_possible_60x60.png')
 		self.center_image(action_image)
@@ -218,7 +227,7 @@ class GraphicsWindow(pyglet.window.Window):
 		y = 0
 		angle = 0
 		x,y,angle = self.camera.get_posang_in_view(x, y, angle)
-		self.act_pos_sprite = pyglet.sprite.Sprite(img=action_image, x=x, y=y)
+		self.act_pos_sprite = pyglet.sprite.Sprite(img=action_image, x=x, y=y, batch=self.batch_mobile, group=order)
 		
 	def init_mobile_objects(self, order):
 		pass
