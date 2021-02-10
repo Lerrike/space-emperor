@@ -7,12 +7,12 @@ class GameEngine():
 		self.all_objects = []
 		self.mobile_objects = []
 		self.static_objects = []
-		self.secondary_static_objects = []
+		self.interactable_objects = []
 		
 		self.commandership = CommanderShip()
 		self.all_objects.append(self.commandership)
 		self.mobile_objects.append(self.commandership)
-		self.homeplanet = HomePlanet()
+		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects)
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
 		
@@ -22,25 +22,30 @@ class GameEngine():
 	def get_static_objects(self):
 		return self.static_objects
 		
-	def get_secondary_static_objects(self):
-		return self.secondary_static_objects
+	def get_interactable_objects(self):
+		return self.interactable_objects
 		
 	def get_mobile_objects(self):
 		return self.mobile_objects
 		
-	def in_action_range(self, object):
-		if math.dist(self.commandership.get_pos(), object.get_pos()) <= 60:
+	def calc_range_do_action(self):
+		for object in self.interactable_objects:
+			if self.in_closerange(self.commandership, object):
+				object.set_in_closerange(True)
+			else:
+				object.set_in_closerange(False)
+		
+	def in_closerange(self, object1, object2):
+		if math.dist(object1.get_pos(), object2.get_pos()) <= 30:
 			return True
-		else
+		else:
 			return False
 		
-	def in_view_range(self, object1, object2):
+	def in_midrange(self, object1, object2):
 		pass
 		
-	def in_map_range(self, object1, object2):
+	def in_longrange(self, object1, object2):
 		pass
 		
 	def action(self):
-		for object in self.get_static_objects():
-			if self.in_action_range(object):
-				pass
+		pass

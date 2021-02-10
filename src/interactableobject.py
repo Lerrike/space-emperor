@@ -1,9 +1,14 @@
-class InteractableObject():
-	def __init__(self):
-		in_closerange = False
+from generalspaceobject import GeneralSpaceObject
+
+class InteractableObject(GeneralSpaceObject):
+	def __init__(self, x, y):
+		super().__init__()
+		self.x = x
+		self.y = y
+		self.in_closerange = False
 		
-	def get_in_closerange(self):
-		return in_closerange
+	def is_in_closerange(self):
+		return self.in_closerange
 		
 	def set_in_closerange(self, value):
-		in_closerange = value
+		self.in_closerange = value
