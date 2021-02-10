@@ -69,7 +69,7 @@ class GraphicsWindow(pyglet.window.Window):
 		elif down_pressed:
 			speed = math.fabs(commandership.get_x_vel()) + math.fabs(commandership.get_y_vel())
 			if speed == 0 and self.down_mem == 0:
-				self.engine.action(self.clock_action)
+				self.engine.action()
 			else:
 				commandership.decelerate()
 				self.down_mem = 1
@@ -77,6 +77,7 @@ class GraphicsWindow(pyglet.window.Window):
 		else:
 			commandership.no_acc_action()
 			self.exhaust_sprite.visible = False
+			self.engine.action_reset()
 			self.down_mem = 0
 		
 		if (left_pressed and right_pressed):
@@ -96,8 +97,24 @@ class GraphicsWindow(pyglet.window.Window):
 			self.act_pos_sprite.x = x
 			self.act_pos_sprite.y = y
 			self.act_pos_sprite.visible = True
+			
+			[x,y] = self.engine.commandership.get_pos()
+			x, y, angle = self.camera.get_posang_in_view(x,y,0)
+			self.load_sprite.x = x
+			self.load_sprite.y = y + 25
+			self.load_sprite.visible = True
+			for i in range(10):
+				if object.load > i * 10:
+					self.load_tick_sprites[i].x = x - 25 + i*5
+					self.load_tick_sprites[i].y = y + 25 - 3
+					self.load_tick_sprites[i].visible = True
+				else:
+					self.load_tick_sprites[i].visible = False
 		else:
 			self.act_pos_sprite.visible = False
+			self.load_sprite.visible = False
+			for sprite in self.load_tick_sprites:
+				sprite.visible = False
 		
 	def update_orientation(self):
 		#Negative, because rotation in opposite direction
@@ -169,13 +186,15 @@ class GraphicsWindow(pyglet.window.Window):
 		order = pyglet.graphics.OrderedGroup(2)
 		self.init_interactable_objects(order)
 		
-		order = pyglet.graphics.OrderedGroup(0)
-		self.init_conditional(order)
+		order0 = pyglet.graphics.OrderedGroup(0)
+		order1 = pyglet.graphics.OrderedGroup(1)
+		order2 = pyglet.graphics.OrderedGroup(2)
+		self.init_conditional(order0,order1,order2)
 		
-		order = pyglet.graphics.OrderedGroup(1)
+		order = pyglet.graphics.OrderedGroup(3)
 		self.init_mobile_objects(order)
 		
-		order = pyglet.graphics.OrderedGroup(2)
+		order = pyglet.graphics.OrderedGroup(4)
 		CS_image = pyglet.resource.image('commander_ship_16x16.png')
 		self.center_image(CS_image)
 		self.CS_sprite = pyglet.sprite.Sprite(img=CS_image, x=280+360, y=360, batch=self.batch_mobile, group=order)
@@ -218,9 +237,10 @@ class GraphicsWindow(pyglet.window.Window):
 		base1_image = pyglet.resource.image('base_lvl1_60x60.png')
 		self.center_image(base1_image)
 		base1_sprite = pyglet.sprite.Sprite(img=base1_image, batch = self.batch_map, group=order)
+		base1_sprite.visible=False
 		self.engine.homeplanet.base.set_level_sprite(base1_sprite)
 		
-	def init_conditional(self, order):
+	def init_conditional(self, order0, order1, order2):
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
 		exhaust_2_image = pyglet.resource.image('exhaust_fumes_2_4x6.png')
 		self.center_image(exhaust_1_image)
@@ -228,15 +248,21 @@ class GraphicsWindow(pyglet.window.Window):
 		y = self.engine.commandership.get_y() - 8 - 3
 		angle = self.engine.commandership.get_angle()
 		x,y,angle = self.camera.get_posang_in_view(x, y, angle)
-		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y, batch=self.batch_mobile, group=order)
+		self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y, batch=self.batch_mobile, group=order0)
 		
 		action_image = pyglet.resource.image('action_possible_60x60.png')
 		self.center_image(action_image)
-		x = 0
-		y = 0
-		angle = 0
-		x,y,angle = self.camera.get_posang_in_view(x, y, angle)
-		self.act_pos_sprite = pyglet.sprite.Sprite(img=action_image, x=x, y=y, batch=self.batch_mobile, group=order)
+		self.act_pos_sprite = pyglet.sprite.Sprite(img=action_image, batch=self.batch_mobile, group=order0)
+		
+		load_image = pyglet.resource.image('load_bar_54x10.png')
+		self.center_image(load_image)
+		self.load_sprite = pyglet.sprite.Sprite(img=load_image, batch=self.batch_mobile, group=order1)
+		
+		self.load_tick_sprites = []
+		load_tick_image = pyglet.resource.image('load_tick_5x6.png')
+		self.center_image(load_image)
+		for i in range(10):
+			self.load_tick_sprites.append(pyglet.sprite.Sprite(img=load_tick_image, batch=self.batch_mobile, group=order2))
 		
 	def init_mobile_objects(self, order):
 		pass

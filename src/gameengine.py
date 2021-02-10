@@ -42,7 +42,6 @@ class GameEngine():
 				self.commandership.set_object_in_closerange(object)
 			else:
 				self.commandership.set_object_in_closerange(0)
-				object.reset_load()
 		
 	def in_closerange(self, object1, object2):
 		if math.dist(object1.get_pos(), object2.get_pos()) <= 30:
@@ -65,11 +64,12 @@ class GameEngine():
 			self.month = 1
 			self.year += 1
 		
-	def action(self, clock):
+	def action(self):
 		object = self.commandership.get_object_in_closerange()
 		if object:
-			dt = clock.update_time()
-			if dt > self.dt*5:
-				object.reset_load()
-			else:
-				object.load_interaction()
+			object.load_interaction()
+			
+	def action_reset(self):
+		object = self.commandership.get_object_in_closerange()
+		if object:
+			object.reset_load()
