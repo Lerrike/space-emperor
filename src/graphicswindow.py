@@ -1,6 +1,6 @@
 import math
 import pyglet
-from keybindings import KeyBindings
+#from keybindings import KeyBindings
 from camera import Camera
 
 class GraphicsWindow(pyglet.window.Window):
@@ -27,6 +27,8 @@ class GraphicsWindow(pyglet.window.Window):
 		pyglet.clock.schedule_interval(update_fun, self.dt)
 		#clk = clock.get_default()
 		
+		self.down_mem = 0
+		
 		
 	def update_world(self, dt):
 		self.engine.commandership.update_angle_position()
@@ -50,20 +52,26 @@ class GraphicsWindow(pyglet.window.Window):
 		up_pressed = self.key_handler[pyglet.window.key.UP]
 		down_pressed = self.key_handler[pyglet.window.key.DOWN]
 		left_pressed = self.key_handler[pyglet.window.key.LEFT]
-		rigt_pressed = self.key_handler[pyglet.window.key.RIGHT]
+		right_pressed = self.key_handler[pyglet.window.key.RIGHT]
 		
 		if up_pressed:
 			commandership.acc_action()
 		elif down_pressed:
-			commandership.decelerate()
+			speed = math.fabs(commandership.get_x_vel()) + math.fabs(commandership.get_y_vel())
+			if speed == 0 and self.down_mem == 0:
+				self.engine.action()
+			else:
+				commandership.decelerate()
+				self.down_mem = 1
 		else:
 			commandership.no_acc_action()
+			self.down_mem = 0
 		
-		if (left_pressed and rigt_pressed):
+		if (left_pressed and right_pressed):
 			commandership.stop_rotation()
 		elif left_pressed:
 			commandership.turn_left()
-		elif rigt_pressed:
+		elif right_pressed:
 			commandership.turn_right()
 		else:
 			commandership.stop_rotation()
@@ -84,8 +92,9 @@ class GraphicsWindow(pyglet.window.Window):
 		x_vel = CS.get_x_vel()
 		y_vel = CS.get_y_vel()
 		ang_vel = CS.get_ang_vel()
+		acc = CS.get_acc()
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
-		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, ang_vel={}".format(x_vel,y_vel,ang_vel)
+		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
 		
 	def update_view(self):
 		CS = self.engine.commandership

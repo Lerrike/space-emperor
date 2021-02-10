@@ -7,6 +7,9 @@ class GeneralSpaceObject():
 		self.ang = 0
 		self.sprite = 0
 		
+	def get_pos(self):
+		return [self.x, self.y]
+		
 	def get_x(self):
 		return self.x
 		

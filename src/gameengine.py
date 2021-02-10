@@ -1,3 +1,4 @@
+import math
 from commandership import CommanderShip
 from homeplanet import HomePlanet
 
@@ -27,3 +28,19 @@ class GameEngine():
 	def get_mobile_objects(self):
 		return self.mobile_objects
 		
+	def in_action_range(self, object):
+		if math.dist(self.commandership.get_pos(), object.get_pos()) <= 60:
+			return True
+		else
+			return False
+		
+	def in_view_range(self, object1, object2):
+		pass
+		
+	def in_map_range(self, object1, object2):
+		pass
+		
+	def action(self):
+		for object in self.get_static_objects():
+			if self.in_action_range(object):
+				pass
