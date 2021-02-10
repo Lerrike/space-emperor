@@ -4,10 +4,10 @@ import pyglet
 from camera import Camera
 
 class GraphicsWindow(pyglet.window.Window):
-	def __init__(self, engine):
+	def __init__(self, engine,dt):
 		self.screen_width = 1280
 		self.screen_height = 720
-		self.dt = 1.0/60.0 #update interval
+		self.dt = dt
 		super(GraphicsWindow, self).__init__(self.screen_width, self.screen_height) #Set screensize
 		self.set_caption('Space Emperor')
 		
@@ -25,10 +25,16 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		update_fun = self.update_world
 		pyglet.clock.schedule_interval(update_fun, self.dt)
-		#clk = clock.get_default()
+		
+		update_fun = self.update_world_time
+		pyglet.clock.schedule_interval(update_fun, 1.0)
+		
+		self.clock_action = pyglet.clock.get_default()
 		
 		self.down_mem = 0
 		
+	def update_world_time(self,dt):
+		self.engine.tick_time()
 		
 	def update_world(self, dt):
 		self.engine.commandership.update_angle_position()
@@ -38,6 +44,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.update_orientation()
 		
 		self.engine.calc_range_do_action()
+		self.clock_action.tick()
 		
 		self.keybindings()
 		
@@ -62,7 +69,7 @@ class GraphicsWindow(pyglet.window.Window):
 		elif down_pressed:
 			speed = math.fabs(commandership.get_x_vel()) + math.fabs(commandership.get_y_vel())
 			if speed == 0 and self.down_mem == 0:
-				self.engine.action()
+				self.engine.action(self.clock_action)
 			else:
 				commandership.decelerate()
 				self.down_mem = 1
@@ -105,6 +112,8 @@ class GraphicsWindow(pyglet.window.Window):
 		y_vel = CS.get_y_vel()
 		ang_vel = CS.get_ang_vel()
 		acc = CS.get_acc()
+		date = self.engine.get_date()
+		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
 		
@@ -233,8 +242,9 @@ class GraphicsWindow(pyglet.window.Window):
 		pass
 	
 	def init_UI_overlay(self, order):
-		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-20,batch = self.batch_UI, group=order)
-		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-40,batch = self.batch_UI, group=order)
+		self.time_label = pyglet.text.Label(text="day/month/year", x=10, y=720-20,batch = self.batch_UI, group=order)
+		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-40,batch = self.batch_UI, group=order)
+		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-60,batch = self.batch_UI, group=order)
 		
 		orientation_image = pyglet.resource.image('orientation_80x80.png')
 		self.center_image(orientation_image)

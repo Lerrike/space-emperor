@@ -3,7 +3,8 @@ from commandership import CommanderShip
 from homeplanet import HomePlanet
 
 class GameEngine():
-	def __init__(self):
+	def __init__(self, dt):
+		self.dt = dt
 		self.all_objects = []
 		self.mobile_objects = []
 		self.static_objects = []
@@ -15,6 +16,13 @@ class GameEngine():
 		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects)
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
+		
+		self.day = 1
+		self.month = 1
+		self.year = 3300
+		
+	def get_date(self):
+		return [self.day, self.month, self.year]
 		
 	def get_objects(self):
 		return self.all_objects
@@ -34,6 +42,7 @@ class GameEngine():
 				self.commandership.set_object_in_closerange(object)
 			else:
 				self.commandership.set_object_in_closerange(0)
+				object.reset_load()
 		
 	def in_closerange(self, object1, object2):
 		if math.dist(object1.get_pos(), object2.get_pos()) <= 30:
@@ -47,7 +56,20 @@ class GameEngine():
 	def in_longrange(self, object1, object2):
 		pass
 		
-	def action(self):
+	def tick_time(self):
+		self.day += 1
+		if self.day > 30:
+			self.day = 1
+			self.month += 1
+		if self.month >= 12:
+			self.month = 1
+			self.year += 1
+		
+	def action(self, clock):
 		object = self.commandership.get_object_in_closerange()
 		if object:
-			object.interact()
+			dt = clock.update_time()
+			if dt > self.dt*5:
+				object.reset_load()
+			else:
+				object.load_interaction()
