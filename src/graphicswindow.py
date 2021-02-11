@@ -134,12 +134,16 @@ class GraphicsWindow(pyglet.window.Window):
 		max_resources = CS.get_max_resources()
 		object = CS.get_object_in_closerange()
 		cost = 0
+		name = 0
 		if object:
 			cost = object.get_cost()
+			name = object.get_name()
 		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
-		self.resource_label.text = "Almanite:{}/{}, Cost:{}".format(resource_amount,max_resources, cost)
+		self.resource_label.text = "Almanite:{}/{}".format(resource_amount,max_resources)
+		self.interaction_label.text = "Interactable:{}, Cost:{}".format(name, cost)
+		
 		
 	def update_view(self):
 		CS = self.engine.commandership
@@ -277,7 +281,11 @@ class GraphicsWindow(pyglet.window.Window):
 		base_sprite.visible=False
 		self.engine.homeplanet.base.set_level_sprite(base_sprite)
 		
-		
+		basemine_image = pyglet.resource.image('basemine_60x60.png')
+		self.center_image(basemine_image)
+		basemine_sprite = pyglet.sprite.Sprite(img=basemine_image, batch = self.batch_map, group=order)
+		basemine_sprite.visible=False
+		self.engine.homeplanet.basemine.set_level_sprite(basemine_sprite)
 		
 	def init_conditional(self, order0, order1, order2):
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
@@ -311,6 +319,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-40,batch = self.batch_UI, group=order)
 		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-60,batch = self.batch_UI, group=order)
 		self.resource_label = pyglet.text.Label(text="Almanite:", x=10, y=720-100,batch = self.batch_UI, group=order)
+		self.interaction_label = pyglet.text.Label(text="Interactable:", x=10, y=720-120,batch = self.batch_UI, group=order)
 		
 		orientation_image = pyglet.resource.image('orientation_80x80.png')
 		self.center_image(orientation_image)

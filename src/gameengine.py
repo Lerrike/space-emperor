@@ -37,11 +37,13 @@ class GameEngine():
 		return self.mobile_objects
 		
 	def calc_range_do_action(self):
+		is_set = 0
 		for object in self.interactable_objects:
 			if self.in_closerange(self.commandership, object):
 				self.commandership.set_object_in_closerange(object)
-			else:
-				self.commandership.set_object_in_closerange(0)
+				is_set = 1
+		if not is_set:
+			self.commandership.set_object_in_closerange(0)
 		
 	def in_closerange(self, object1, object2):
 		if math.dist(object1.get_pos(), object2.get_pos()) <= 30:
@@ -66,12 +68,13 @@ class GameEngine():
 		
 	def action(self):
 		object = self.commandership.get_object_in_closerange()
-		cost = object.get_cost()
-		is_possible = self.commandership.get_resources() > cost
-		if object and is_possible:
-			done = object.load_interaction()
-			if done:
-				self.commandership.use_resources(cost)
+		if object:
+			cost = object.get_cost()
+			is_possible = self.commandership.get_resources() > cost
+			if is_possible:
+				done = object.load_interaction()
+				if done:
+					self.commandership.use_resources(cost)
 				
 	def action_reset(self):
 		object = self.commandership.get_object_in_closerange()
