@@ -15,12 +15,8 @@ class HomePlanet(StaticSpaceObject):
 		interactable_list.append(self.base)
 		
 	def get_level(self):
-		return self.level
+		return self.base.get_level()
 		
 	def get_base(self):
 		return self.base
 		
-	def upgrade_level(self):
-		if self.level < 1:
-			self.level += 1
-			

@@ -98,15 +98,15 @@ class GraphicsWindow(pyglet.window.Window):
 			self.act_pos_sprite.y = y
 			self.act_pos_sprite.visible = True
 			
-			[x,y] = self.engine.commandership.get_pos()
+			[x,y] = object.get_pos()
 			x, y, angle = self.camera.get_posang_in_view(x,y,0)
 			self.load_sprite.x = x
-			self.load_sprite.y = y + 25
+			self.load_sprite.y = y + 40
 			self.load_sprite.visible = True
 			for i in range(10):
 				if object.load > i * 10:
 					self.load_tick_sprites[i].x = x - 25 + i*5
-					self.load_tick_sprites[i].y = y + 25 - 3
+					self.load_tick_sprites[i].y = y + 40 - 3
 					self.load_tick_sprites[i].visible = True
 				else:
 					self.load_tick_sprites[i].visible = False
@@ -130,9 +130,12 @@ class GraphicsWindow(pyglet.window.Window):
 		ang_vel = CS.get_ang_vel()
 		acc = CS.get_acc()
 		date = self.engine.get_date()
+		resource_amount = CS.get_resources()
+		max_resources = CS.get_max_resources()
 		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
+		self.resource_label.text = "Almanite:{}/{}".format(resource_amount,max_resources)
 		
 	def update_view(self):
 		CS = self.engine.commandership
@@ -271,6 +274,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.time_label = pyglet.text.Label(text="day/month/year", x=10, y=720-20,batch = self.batch_UI, group=order)
 		self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-40,batch = self.batch_UI, group=order)
 		self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-60,batch = self.batch_UI, group=order)
+		self.resource_label = pyglet.text.Label(text="Almanite:", x=10, y=720-100,batch = self.batch_UI, group=order)
 		
 		orientation_image = pyglet.resource.image('orientation_80x80.png')
 		self.center_image(orientation_image)

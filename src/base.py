@@ -8,6 +8,7 @@ class Base(InteractableObject):
 		self.homeplanet = homeplanet
 		
 		self.sprites = []
+		self.costs = [0,5,12,25,45,70,100]
 		
 	def get_sprite(self):
 		return self.sprites[self.homeplanet.get_level()]
@@ -16,7 +17,9 @@ class Base(InteractableObject):
 		self.sprites.append(sprite)
 		
 	def interact(self):
-		self.homeplanet.upgrade_level()
-		level = self.homeplanet.get_level()
-		self.sprites[level-1].visible = False
-		self.sprites[level].visible = True
+		self.upgrade_level()
+		self.sprites[self.level-1].visible = False
+		self.sprites[self.level].visible = True
+		
+	def get_cost(self):
+		pass
