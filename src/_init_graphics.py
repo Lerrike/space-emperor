@@ -26,11 +26,14 @@ def init_graphics(self):
 	self.engine.commandership.set_sprite(self.CS_sprite)
 	
 	order = pyglet.graphics.OrderedGroup(0)
-	viewol_image = pyglet.resource.image('view_overlay_1280x720.png')
+	viewol_image = pyglet.resource.image('view_overlay_v2_1280x720.png')
 	self.view_overlay_sprite = pyglet.sprite.Sprite(img=viewol_image, x=0, y=0,batch = self.batch_UI, group=order)
+	
+	self.init_map(order)
 	
 	order = pyglet.graphics.OrderedGroup(1)
 	self.init_UI_overlay(order)
+	
 	
 def init_background(self, order):
 	#Space background
@@ -138,3 +141,13 @@ def init_UI_overlay(self, order):
 	orientation_image = pyglet.resource.image('orientation_80x80.png')
 	self.center_image(orientation_image)
 	self.orientation_sprite = pyglet.sprite.Sprite(img=orientation_image, x=40, y=40, batch = self.batch_UI, group=order)
+	
+def init_map(self, order):
+	center = self.map.get_center()
+	size = self.map.get_size()
+	self.map_circle = pyglet.shapes.Arc(center[0], center[1], size/2, color=(50, 0, 255), batch=self.batch_UI, group=order)
+	self.map_cs = pyglet.shapes.Arc(center[0], center[1], 2, color=(50, 0, 255), batch=self.batch_UI, group=order)
+	self.map_static = []
+	for object in self.engine.get_static_objects():
+		circle = pyglet.shapes.Arc(100, 100, 3, color=(0, 255, 0), batch=self.batch_UI, group=order)
+		self.map_static.append([object, circle])

@@ -70,3 +70,17 @@ def update_space_objects(self):
 			sprite.x = x
 			sprite.y = y
 			sprite.rotation = angle
+			
+def update_map(self):
+	[x_cs, y_cs] = self.engine.commandership.get_pos()
+	ang_cs = self.engine.commandership.get_angle()
+	self.map.update_camera_posang(x_cs, y_cs, ang_cs)
+	for tuple in self.map_static:
+		object = tuple[0]
+		circle = tuple[1]
+		if self.map.is_on_view(object):
+			x = object.get_x()
+			y = object.get_y()
+			x, y, angle = self.map.get_posang_in_view(x, y, 0)
+			circle.x = x
+			circle.y = y

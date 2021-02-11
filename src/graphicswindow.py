@@ -4,8 +4,9 @@ from camera import Camera
 
 class GraphicsWindow(pyglet.window.Window):
 	from _init_graphics import init_graphics, init_background, init_static_objects, init_interactable_objects,\
-		init_conditional, init_mobile_objects, init_UI_overlay
-	from _update_graphics import update_orientation, update_text, update_view, update_background, update_space_objects
+		init_conditional, init_mobile_objects, init_UI_overlay, init_map
+	from _update_graphics import update_orientation, update_text, update_view, update_background, update_space_objects,\
+		update_map
 	
 	def __init__(self, engine,dt):
 		self.screen_width = 1280
@@ -20,6 +21,12 @@ class GraphicsWindow(pyglet.window.Window):
 		size = self.screen_height
 		scaling = 1
 		self.camera = Camera(x_center, y_center, size, scaling)
+		
+		x_center = 190
+		y_center = 140
+		size = 280
+		scaling = 100
+		self.map = Camera(x_center, y_center, size, scaling)
 		
 		self.batch_map = pyglet.graphics.Batch()
 		self.batch_mobile = pyglet.graphics.Batch()
@@ -45,6 +52,7 @@ class GraphicsWindow(pyglet.window.Window):
 	def update_world(self, dt):
 		self.engine.commandership.update_angle_position()
 		self.update_view()
+		self.update_map()
 		self.update_space_objects()
 		self.update_text()
 		self.update_orientation()
@@ -124,6 +132,7 @@ class GraphicsWindow(pyglet.window.Window):
 			self.load_sprite.visible = False
 			for sprite in self.load_tick_sprites:
 				sprite.visible = False
+				
 	
 	def center_image(self, image):
 		image.anchor_x = image.width // 2
