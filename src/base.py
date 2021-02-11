@@ -1,17 +1,17 @@
 from interactableobject import InteractableObject
 
 class Base(InteractableObject):
-	def __init__(self, x, y, homeplanet):
-		super().__init__()
+	def __init__(self, max, x, y, homeplanet):
+		super().__init__(max)
 		self.x = x
 		self.y = y
 		self.homeplanet = homeplanet
 		
 		self.sprites = []
-		self.costs = [0,5,12,25,45,70,100]
+		self.costs = [5,12,25,45,70,100]
 		
 	def get_sprite(self):
-		return self.sprites[self.homeplanet.get_level()]
+		return self.sprites[self.level]
 		
 	def set_level_sprite(self, sprite):
 		self.sprites.append(sprite)
@@ -22,4 +22,4 @@ class Base(InteractableObject):
 		self.sprites[self.level].visible = True
 		
 	def get_cost(self):
-		pass
+		return self.costs[self.level]

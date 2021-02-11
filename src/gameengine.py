@@ -66,9 +66,13 @@ class GameEngine():
 		
 	def action(self):
 		object = self.commandership.get_object_in_closerange()
-		if object:
-			object.load_interaction()
-			
+		cost = object.get_cost()
+		is_possible = self.commandership.get_resources() > cost
+		if object and is_possible:
+			done = object.load_interaction()
+			if done:
+				self.commandership.use_resources(cost)
+				
 	def action_reset(self):
 		object = self.commandership.get_object_in_closerange()
 		if object:

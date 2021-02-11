@@ -6,7 +6,7 @@ class CommanderShip(MobileSpaceObject):
 		super().__init__()
 		self.object_in_closerange = 0
 		self.max_resources = 100
-		self.resources = 10
+		self.resources = 100
 		
 	def get_object_in_closerange(self):
 		return self.object_in_closerange

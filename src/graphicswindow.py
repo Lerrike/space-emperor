@@ -132,10 +132,14 @@ class GraphicsWindow(pyglet.window.Window):
 		date = self.engine.get_date()
 		resource_amount = CS.get_resources()
 		max_resources = CS.get_max_resources()
+		object = CS.get_object_in_closerange()
+		cost = 0
+		if object:
+			cost = object.get_cost()
 		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
-		self.resource_label.text = "Almanite:{}/{}".format(resource_amount,max_resources)
+		self.resource_label.text = "Almanite:{}/{}, Cost:{}".format(resource_amount,max_resources, cost)
 		
 	def update_view(self):
 		CS = self.engine.commandership
@@ -232,16 +236,48 @@ class GraphicsWindow(pyglet.window.Window):
 		self.engine.homeplanet.set_sprite(self.homeplanet_sprite)
 		
 	def init_interactable_objects(self, order):
-		base0_image = pyglet.resource.image('base_lvl0_60x60.png')
-		self.center_image(base0_image)
-		base0_sprite = pyglet.sprite.Sprite(img=base0_image, batch = self.batch_map, group=order)
-		self.engine.homeplanet.base.set_level_sprite(base0_sprite)
+		base_image = pyglet.resource.image('base_lvl0_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
 		
-		base1_image = pyglet.resource.image('base_lvl1_60x60.png')
-		self.center_image(base1_image)
-		base1_sprite = pyglet.sprite.Sprite(img=base1_image, batch = self.batch_map, group=order)
-		base1_sprite.visible=False
-		self.engine.homeplanet.base.set_level_sprite(base1_sprite)
+		base_image = pyglet.resource.image('base_lvl1_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		base_sprite.visible=False
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
+		
+		base_image = pyglet.resource.image('base_lvl2_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		base_sprite.visible=False
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
+		
+		base_image = pyglet.resource.image('base_lvl3_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		base_sprite.visible=False
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
+		
+		base_image = pyglet.resource.image('base_lvl4_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		base_sprite.visible=False
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
+		
+		base_image = pyglet.resource.image('base_lvl5_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		base_sprite.visible=False
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
+		
+		base_image = pyglet.resource.image('base_lvl6_60x60.png')
+		self.center_image(base_image)
+		base_sprite = pyglet.sprite.Sprite(img=base_image, batch = self.batch_map, group=order)
+		base_sprite.visible=False
+		self.engine.homeplanet.base.set_level_sprite(base_sprite)
+		
+		
 		
 	def init_conditional(self, order0, order1, order2):
 		exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')

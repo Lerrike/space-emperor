@@ -10,7 +10,7 @@ class HomePlanet(StaticSpaceObject):
 		self.level = 0
 		self.level_sprites = []
 		
-		self.base = Base(self.x,self.y, self)
+		self.base = Base(6, self.x,self.y, self)
 		all_objects_list.append(self.base)
 		interactable_list.append(self.base)
 		
