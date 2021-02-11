@@ -15,7 +15,11 @@ class GraphicsWindow(pyglet.window.Window):
 		self.set_caption('Space Emperor')
 		
 		self.engine = engine
-		self.camera = Camera(self.screen_width, self.screen_height)
+		x_center = (self.screen_width-self.screen_height)/2 + self.screen_height/2
+		y_center = self.screen_height/2
+		size = self.screen_height
+		scaling = 1
+		self.camera = Camera(x_center, y_center, size, scaling)
 		
 		self.batch_map = pyglet.graphics.Batch()
 		self.batch_mobile = pyglet.graphics.Batch()
@@ -24,7 +28,6 @@ class GraphicsWindow(pyglet.window.Window):
 		
 		self.key_handler = pyglet.window.key.KeyStateHandler()
 		self.push_handlers(self.key_handler)
-		#KeyBindings(self, self.engine.commandership)
 		
 		update_fun = self.update_world
 		pyglet.clock.schedule_interval(update_fun, self.dt)
@@ -66,7 +69,7 @@ class GraphicsWindow(pyglet.window.Window):
 		right_pressed = self.key_handler[pyglet.window.key.RIGHT]
 		
 		if up_pressed:
-			if commandership.get_resources() > 0:
+			if commandership.has_resources():
 				commandership.acc_action()
 				self.exhaust_sprite.visible = True
 		elif down_pressed:
@@ -74,7 +77,7 @@ class GraphicsWindow(pyglet.window.Window):
 			if speed == 0 and self.down_mem == 0:
 				self.engine.action()
 			else:
-				if commandership.get_resources() > 0 and speed > 0:
+				if commandership.has_resources() and speed > 0:
 					commandership.decelerate()
 				self.down_mem = 1
 			self.exhaust_sprite.visible = False
@@ -87,9 +90,11 @@ class GraphicsWindow(pyglet.window.Window):
 		if (left_pressed and right_pressed):
 			commandership.stop_rotation()
 		elif left_pressed:
-			commandership.turn_left()
+			if commandership.has_resources():
+				commandership.turn_left()
 		elif right_pressed:
-			commandership.turn_right()
+			if commandership.has_resources():
+				commandership.turn_right()
 		else:
 			commandership.stop_rotation()
 		

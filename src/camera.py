@@ -1,12 +1,13 @@
 import math
 
 class Camera():
-	def __init__(self, width, height):
-		self.size = height
+	def __init__(self, x_center, y_center, size, scaling):
+		self.size = size
+		self.scaling = scaling
 		self.x = 0
 		self.y = 0
-		self.x_base = (width-height)/2 + self.size/2
-		self.y_base = self.size/2
+		self.x_center = x_center
+		self.y_center = y_center
 		self.angle = 0
 		
 	def get_position(self):
@@ -25,8 +26,8 @@ class Camera():
 		#angle = math.radians(angle)
 		dang = ang_rel + math.radians(self.angle)
 		L = math.sqrt(dx**2+dy**2)
-		x_view = self.x_base + L*math.cos(dang)
-		y_view = self.y_base + L*math.sin(dang)
+		x_view = self.x_center + L*math.cos(dang)
+		y_view = self.y_center + L*math.sin(dang)
 		return x_view, y_view, angle_view
 		
 	def is_on_view(self, object):

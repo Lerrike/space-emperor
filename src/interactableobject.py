@@ -12,7 +12,7 @@ class InteractableObject(GeneralSpaceObject):
 		self.max_level = max
 		self.exists = exists
 		self.sprites = []
-		self.costs = 0
+		self.costs = -1
 		
 	def get_name(self):
 		return self.name
