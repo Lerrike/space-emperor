@@ -38,7 +38,7 @@ class GameEngine():
 	def get_mobile_objects(self):
 		return self.mobile_objects
 		
-	def calc_range_do_action(self):
+	def update_world(self):
 		is_set = 0
 		for object in self.interactable_objects:
 			if self.in_closerange(self.commandership, object):
@@ -46,6 +46,7 @@ class GameEngine():
 				is_set = 1
 		if not is_set:
 			self.commandership.set_object_in_closerange(0)
+			
 		
 	def in_closerange(self, object1, object2):
 		if math.dist(object1.get_pos(), object2.get_pos()) <= 30:
@@ -70,7 +71,7 @@ class GameEngine():
 			
 	def do_tick_action(self):
 		basemine = self.homeplanet.get_basemine()
-		if 1 or (basemine.exists and self.day == basemine.get_created()[0]):
+		if basemine.exists:
 			self.homeplanet.get_basemine().increment_resource()
 		
 	def action(self):

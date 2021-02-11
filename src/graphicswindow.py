@@ -29,7 +29,6 @@ class GraphicsWindow(pyglet.window.Window):
 		update_fun = self.update_world_time
 		pyglet.clock.schedule_interval(update_fun, 1.0)
 		
-		self.clock_action = pyglet.clock.get_default()
 		
 		self.down_mem = 0
 		
@@ -44,8 +43,7 @@ class GraphicsWindow(pyglet.window.Window):
 		self.update_text()
 		self.update_orientation()
 		
-		self.engine.calc_range_do_action()
-		self.clock_action.tick()
+		self.engine.update_world()
 		
 		self.keybindings()
 		
@@ -65,14 +63,16 @@ class GraphicsWindow(pyglet.window.Window):
 		right_pressed = self.key_handler[pyglet.window.key.RIGHT]
 		
 		if up_pressed:
-			commandership.acc_action()
-			self.exhaust_sprite.visible = True
+			if commandership.get_resources() > 0:
+				commandership.acc_action()
+				self.exhaust_sprite.visible = True
 		elif down_pressed:
 			speed = math.fabs(commandership.get_x_vel()) + math.fabs(commandership.get_y_vel())
 			if speed == 0 and self.down_mem == 0:
 				self.engine.action()
 			else:
-				commandership.decelerate()
+				if commandership.get_resources() > 0 and speed > 0:
+					commandership.decelerate()
 				self.down_mem = 1
 			self.exhaust_sprite.visible = False
 		else:
@@ -147,8 +147,8 @@ class GraphicsWindow(pyglet.window.Window):
 		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
-		self.resource_label.text = "Almanite:{}/{}".format(resource_amount,max_resources)
-		self.interaction_label.text = "Interactable:{}, {}:{}".format(name, interaction, amount)
+		self.resource_label.text = "Almanite:{:.2f}/{}".format(resource_amount,max_resources)
+		self.interaction_label.text = "Interactable:{}, {}:{:.2f}".format(name, interaction, amount)
 		
 		
 	def update_view(self):

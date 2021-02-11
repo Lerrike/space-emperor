@@ -17,6 +17,14 @@ class CommanderShip(MobileSpaceObject):
 	def get_max_resources(self):
 		return self.max_resources
 		
+	def acc_action(self):
+		self.acc = 2
+		self.resources -= 0.01
+		
+	def decelerate(self):
+		self.acc = -2
+		self.resources -= 0.01
+		
 	def add_resources(self, amount):
 		if self.resources + amount > self.max_resources:
 			over = self.resources + amount - self.max_resources
