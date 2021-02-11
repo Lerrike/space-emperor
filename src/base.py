@@ -6,7 +6,7 @@ class Base(InteractableObject):
 		self.name = "Base"
 		self.interaction = "Upgrade"
 		self.homeplanet = homeplanet
-		self.costs = [5,12,25,45,70,100]
+		self.costs = [50,120,250,450,700,1000]
 		
 		
 	def interact(self):

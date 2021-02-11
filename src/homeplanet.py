@@ -3,10 +3,12 @@ from base import Base
 from basemine import Basemine
 
 class HomePlanet(StaticSpaceObject):
-	def __init__(self, created, all_objects_list, interactable_list):
+	def __init__(self, created, all_objects_list, interactable_list, engine):
 		super().__init__(created)
 		self.x = 0
-		self.y = 360
+		self.y = 160
+		
+		self.engine = engine
 		
 		self.level = 0
 		self.level_sprites = []
@@ -36,4 +38,5 @@ class HomePlanet(StaticSpaceObject):
 			self.basemine.set_exist(True)
 			self.all_objects_list.append(self.basemine)
 			self.interactable_list.append(self.basemine)
+			self.basemine.set_created(self.engine.get_date())
 		

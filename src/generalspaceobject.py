@@ -32,3 +32,6 @@ class GeneralSpaceObject():
 		
 	def set_sprite(self, sprite):
 		self.sprite = sprite
+		
+	def set_created(self, date):
+		self.created = date

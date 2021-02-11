@@ -139,6 +139,9 @@ class GraphicsWindow(pyglet.window.Window):
 		interaction = 0
 		if object:
 			amount = object.get_interaction_cost()
+			resource = object.get_storage()
+			if resource:
+				amount = resource
 			name = object.get_name()
 			interaction = object.get_interaction_name()
 		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])

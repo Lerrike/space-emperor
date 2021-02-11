@@ -18,7 +18,7 @@ class GameEngine():
 		self.commandership = CommanderShip(self.date)
 		self.all_objects.append(self.commandership)
 		self.mobile_objects.append(self.commandership)
-		self.homeplanet = HomePlanet(self.date, self.all_objects, self.interactable_objects)
+		self.homeplanet = HomePlanet(self.date, self.all_objects, self.interactable_objects, self)
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
 		
@@ -69,7 +69,8 @@ class GameEngine():
 			self.year += 1
 			
 	def do_tick_action(self):
-		if self.day == 1:
+		basemine = self.homeplanet.get_basemine()
+		if basemine.exists and self.day == basemine.get_created()[0]:
 			self.homeplanet.get_basemine().increment_resource()
 		
 	def action(self):
