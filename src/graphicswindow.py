@@ -139,7 +139,7 @@ class GraphicsWindow(pyglet.window.Window):
 		interaction = 0
 		if object:
 			amount = object.get_interaction_cost()
-			resource = object.get_storage()
+			resource = object.get_resources()
 			if resource:
 				amount = resource
 			name = object.get_name()

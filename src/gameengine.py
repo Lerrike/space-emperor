@@ -70,7 +70,7 @@ class GameEngine():
 			
 	def do_tick_action(self):
 		basemine = self.homeplanet.get_basemine()
-		if basemine.exists and self.day == basemine.get_created()[0]:
+		if 1 or (basemine.exists and self.day == basemine.get_created()[0]):
 			self.homeplanet.get_basemine().increment_resource()
 		
 	def action(self):
@@ -79,7 +79,7 @@ class GameEngine():
 			cost = object.get_interaction_cost()
 			is_possible = self.commandership.get_resources() > cost
 			if is_possible:
-				done = object.load_interaction()
+				done = object.load_interaction(self.commandership)
 				if done:
 					self.commandership.use_resources(cost)
 				

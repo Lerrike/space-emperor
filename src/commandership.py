@@ -6,7 +6,7 @@ class CommanderShip(MobileSpaceObject):
 		super().__init__(created)
 		self.object_in_closerange = 0
 		self.max_resources = 1000
-		self.resources = 100
+		self.resources = 1000
 		
 	def get_object_in_closerange(self):
 		return self.object_in_closerange
@@ -17,9 +17,6 @@ class CommanderShip(MobileSpaceObject):
 	def get_max_resources(self):
 		return self.max_resources
 		
-	def get_resources(self):
-		return self.resources
-		
 	def add_resources(self, amount):
 		if self.resources + amount > self.max_resources:
 			over = self.resources + amount - self.max_resources
@@ -28,7 +25,7 @@ class CommanderShip(MobileSpaceObject):
 		else:
 			self.resources += amount
 			return 0
-			
+		
 	def use_resources(self, amount):
 		if self.resources - amount < 0:
 			return 0

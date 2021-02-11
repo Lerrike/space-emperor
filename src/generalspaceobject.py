@@ -6,14 +6,14 @@ class GeneralSpaceObject():
 		self.y = 0
 		self.ang = 0
 		self.sprite = 0
-		self.storage = 0
+		self.resources = 0
 		self.created = created
 		
 	def get_created(self):
 		return self.created
 		
-	def get_storage(self):
-		return self.storage
+	def get_resources(self):
+		return self.resources
 		
 	def get_pos(self):
 		return [self.x, self.y]
@@ -35,3 +35,6 @@ class GeneralSpaceObject():
 		
 	def set_created(self, date):
 		self.created = date
+			
+	def set_resources(self, amount):
+		self.resources = amount
