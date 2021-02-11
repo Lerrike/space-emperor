@@ -10,16 +10,18 @@ class GameEngine():
 		self.static_objects = []
 		self.interactable_objects = []
 		
-		self.commandership = CommanderShip()
-		self.all_objects.append(self.commandership)
-		self.mobile_objects.append(self.commandership)
-		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects)
-		self.all_objects.append(self.homeplanet)
-		self.static_objects.append(self.homeplanet)
-		
 		self.day = 1
 		self.month = 1
 		self.year = 3300
+		self.date = [self.day, self.month, self.year]
+		
+		self.commandership = CommanderShip(self.date)
+		self.all_objects.append(self.commandership)
+		self.mobile_objects.append(self.commandership)
+		self.homeplanet = HomePlanet(self.date, self.all_objects, self.interactable_objects)
+		self.all_objects.append(self.homeplanet)
+		self.static_objects.append(self.homeplanet)
+		
 		
 	def get_date(self):
 		return [self.day, self.month, self.year]
@@ -65,11 +67,15 @@ class GameEngine():
 		if self.month >= 12:
 			self.month = 1
 			self.year += 1
+			
+	def do_tick_action(self):
+		if self.day == 1:
+			self.homeplanet.get_basemine().increment_resource()
 		
 	def action(self):
 		object = self.commandership.get_object_in_closerange()
 		if object:
-			cost = object.get_cost()
+			cost = object.get_interaction_cost()
 			is_possible = self.commandership.get_resources() > cost
 			if is_possible:
 				done = object.load_interaction()

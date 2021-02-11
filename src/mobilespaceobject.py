@@ -2,8 +2,8 @@ import math
 from generalspaceobject import GeneralSpaceObject
 
 class MobileSpaceObject(GeneralSpaceObject):
-	def __init__(self):
-		super().__init__()
+	def __init__(self, created):
+		super().__init__(created)
 		self.x_vel = 0
 		self.y_vel = 0
 		self.ang_vel = 0

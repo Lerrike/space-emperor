@@ -35,6 +35,7 @@ class GraphicsWindow(pyglet.window.Window):
 		
 	def update_world_time(self,dt):
 		self.engine.tick_time()
+		self.engine.do_tick_action()
 		
 	def update_world(self, dt):
 		self.engine.commandership.update_angle_position()
@@ -133,16 +134,18 @@ class GraphicsWindow(pyglet.window.Window):
 		resource_amount = CS.get_resources()
 		max_resources = CS.get_max_resources()
 		object = CS.get_object_in_closerange()
-		cost = 0
+		amount = 0
 		name = 0
+		interaction = 0
 		if object:
-			cost = object.get_cost()
+			amount = object.get_interaction_cost()
 			name = object.get_name()
+			interaction = object.get_interaction_name()
 		self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 		self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
 		self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
 		self.resource_label.text = "Almanite:{}/{}".format(resource_amount,max_resources)
-		self.interaction_label.text = "Interactable:{}, Cost:{}".format(name, cost)
+		self.interaction_label.text = "Interactable:{}, {}:{}".format(name, interaction, amount)
 		
 		
 	def update_view(self):

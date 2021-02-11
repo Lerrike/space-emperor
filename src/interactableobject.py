@@ -1,9 +1,10 @@
 from generalspaceobject import GeneralSpaceObject
 
 class InteractableObject(GeneralSpaceObject):
-	def __init__(self, max, exists, x, y):
-		super().__init__()
+	def __init__(self, created, max, exists, x, y):
+		super().__init__(created)
 		self.name = "Nothing"
+		self.intersection = "DoNothing"
 		self.x = x
 		self.y = y
 		self.load = 0
@@ -15,6 +16,9 @@ class InteractableObject(GeneralSpaceObject):
 		
 	def get_name(self):
 		return self.name
+		
+	def get_interaction_name(self):
+		return self.interaction
 		
 	def get_sprite(self):
 		return self.sprites[self.level]
@@ -30,8 +34,8 @@ class InteractableObject(GeneralSpaceObject):
 		self.load += 1
 		return False
 		
-	def get_cost(self):
-		return self.costs[self.level]
+	def get_interaction_cost(self):
+		pass
 			
 	def get_load(self):
 		return self.load
