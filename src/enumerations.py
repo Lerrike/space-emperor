@@ -5,7 +5,8 @@ class Side(Enum):
 	Neutral = 2
 	Enemy = 3
 	
-class Map(Enum):
+class Description(Enum):
+	Null = 0
 	Homeplanet = 1
 	Moon = 2
 	Asteroid = 3

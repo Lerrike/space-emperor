@@ -1,6 +1,7 @@
 import math
 from commandership import CommanderShip
 from homeplanet import HomePlanet
+from moon import Moon
 
 class GameEngine():
 	def __init__(self, dt):
@@ -15,13 +16,17 @@ class GameEngine():
 		self.year = 3300
 		self.date = [self.day, self.month, self.year]
 		
-		self.commandership = CommanderShip(self.date)
+		self.commandership = CommanderShip()
 		self.all_objects.append(self.commandership)
 		self.mobile_objects.append(self.commandership)
-		self.homeplanet = HomePlanet(self.date, self.all_objects, self.interactable_objects, self)
+		
+		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects)
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
 		
+		self.moon = Moon(self.all_objects, self.interactable_objects)
+		self.all_objects.append(self.moon)
+		self.static_objects.append(self.moon)
 		
 	def get_date(self):
 		return [self.day, self.month, self.year]
@@ -55,10 +60,17 @@ class GameEngine():
 			return False
 		
 	def in_midrange(self, object1, object2):
-		pass
+		if math.dist(object1.get_pos(), object2.get_pos()) <= 720/2:
+			return True
+		else:
+			return False
 		
 	def in_longrange(self, object1, object2):
-		pass
+		if math.dist(object1.get_pos(), object2.get_pos()) <= 100000:
+			return True
+		else:
+			return False
+			
 		
 	def tick_time(self):
 		self.day += 1
@@ -80,7 +92,7 @@ class GameEngine():
 			cost = object.get_interaction_cost()
 			is_possible = self.commandership.get_resources() > cost
 			if is_possible:
-				done = object.load_interaction(self.commandership)
+				done = object.load_interaction(self.commandership, self.date)
 				if done:
 					self.commandership.use_resources(cost)
 				

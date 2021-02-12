@@ -1,13 +1,18 @@
 import math
+from enumerations import *
 
 class GeneralSpaceObject():
-	def __init__(self, created):
+	def __init__(self):
+		self.description = Description.Null
 		self.x = 0
 		self.y = 0
-		self.ang = 0
+		self.angle = 0
 		self.sprite = 0
 		self.resources = 0
-		self.created = created
+		self.created = 0
+		
+	def get_description(self):
+		return self.description
 		
 	def get_created(self):
 		return self.created
@@ -25,7 +30,7 @@ class GeneralSpaceObject():
 		return self.y
 		
 	def get_angle(self):
-		return self.ang
+		return self.angle
 		
 	def get_sprite(self):
 		return self.sprite

@@ -1,6 +1,7 @@
 import math
 import pyglet
 from camera import Camera
+from enumerations import *
 
 class GraphicsWindow(pyglet.window.Window):
 	from _init_graphics import init_graphics, init_background, init_static_objects, init_interactable_objects,\
@@ -22,10 +23,10 @@ class GraphicsWindow(pyglet.window.Window):
 		scaling = 1
 		self.camera = Camera(x_center, y_center, size, scaling)
 		
-		x_center = 190
-		y_center = 140
-		size = 280
-		scaling = 100
+		x_center = 150
+		y_center = 150
+		size = 300
+		scaling = 10
 		self.map = Camera(x_center, y_center, size, scaling)
 		
 		self.batch_map = pyglet.graphics.Batch()
