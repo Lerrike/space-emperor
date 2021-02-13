@@ -7,26 +7,37 @@ class GameEngine():
 	def __init__(self, dt):
 		self.dt = dt
 		self.all_objects = []
-		self.mobile_objects = []
 		self.static_objects = []
-		self.interactable_objects = []
+		self.interactable = []
+		self.ai_objects = []
 		
 		self.day = 1
 		self.month = 1
 		self.year = 3300
 		self.date = [self.day, self.month, self.year]
 		
-		self.commandership = CommanderShip(dt)
-		self.all_objects.append(self.commandership)
-		self.mobile_objects.append(self.commandership)
+		self.init_world()
 		
-		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects, self)
+	def init_world(self):
+		self.commandership = CommanderShip(self.dt)
+		self.all_objects.append(self.commandership)
+		
+		self.homeplanet = HomePlanet(self)
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
 		
-		self.moon = Moon(self.all_objects, self.interactable_objects)
+		self.moon = Moon(self)
 		self.all_objects.append(self.moon)
 		self.static_objects.append(self.moon)
+		
+	def add_to_all_objects(self, object):
+		self.all_objects.append(object)
+		
+	def add_to_interactable_objects(self, object):
+		self.interactable.append(object)
+		
+	def get_cs(self):
+		return self.commandership
 		
 	def get_date(self):
 		return [self.day, self.month, self.year]
@@ -38,14 +49,23 @@ class GameEngine():
 		return self.static_objects
 		
 	def get_interactable_objects(self):
-		return self.interactable_objects
+		return self.interactable
 		
-	def get_mobile_objects(self):
-		return self.mobile_objects
+	def get_ai_objects(self):
+		return self.ai_objects
 		
+	def get_intelliget_mobile_objects(self):
+		return self.intelligent_mobile_objects
+		
+	def set_window(self, window):
+		self.window = window
+		
+	def get_window(self):
+		return self.window
+	
 	def update_world(self):
 		is_set = 0
-		for object in self.interactable_objects:
+		for object in self.interactable:
 			if self.in_closerange(self.commandership, object):
 				self.commandership.set_object_in_closerange(object)
 				is_set = 1
@@ -92,7 +112,7 @@ class GameEngine():
 			cost = object.get_interaction_cost()
 			is_possible = self.commandership.get_resources() > cost
 			if is_possible:
-				done = object.load_interaction(self.commandership)
+				done = object.load_interaction(self)
 				if done:
 					self.commandership.use_resources(cost)
 				

@@ -1,4 +1,5 @@
 from intelligentmobileobject import IntelligentMobileObject
+from enumerations import *
 
 class EngineerUnit(IntelligentMobileObject):
 	def __init__(self, dt):
@@ -8,3 +9,4 @@ class EngineerUnit(IntelligentMobileObject):
 		self.max_acc_thrust = 200
 		self.max_dec_thrust = 100
 		self.max_ang_vel = 200
+		self.descrition = Description.FriendlyShip

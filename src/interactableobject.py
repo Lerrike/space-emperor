@@ -14,6 +14,7 @@ class InteractableObject(GeneralSpaceObject):
 		self.sprites = []
 		self.costs = -1
 		
+		
 	def get_name(self):
 		return self.name
 		
@@ -26,9 +27,9 @@ class InteractableObject(GeneralSpaceObject):
 	def set_level_sprite(self, sprite):
 		self.sprites.append(sprite)
 		
-	def load_interaction(self, cs):
+	def load_interaction(self, engine):
 		if self.load >= 100:
-			self.interact(cs)
+			self.interact(engine)
 			self.load = 0
 			return True
 		self.load += 1

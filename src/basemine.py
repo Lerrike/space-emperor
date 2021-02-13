@@ -10,6 +10,6 @@ class Basemine(InteractableObject):
 	def increment_resource(self):
 		self.resources += 1
 		
-	def interact(self, cs):
-		over = cs.add_resources(self.resources)
+	def interact(self, engine):
+		over = engine.get_cs().add_resources(self.resources)
 		self.set_resources(over)

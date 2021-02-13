@@ -29,6 +29,10 @@ class GeneralSpaceObject():
 	def get_y(self):
 		return self.y
 		
+	def set_pos(self, pos):
+		self.x = pos[0]
+		self.y = pos[1]
+		
 	def get_angle(self):
 		return self.angle
 		

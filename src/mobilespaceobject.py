@@ -42,7 +42,7 @@ class MobileSpaceObject(GeneralSpaceObject):
 	def use_energy(self):
 		acc = math.fabs(self.acc)
 		torque = math.fabs(self.ang_vel)
-		consumption = acc/1000 + torque/10000
+		consumption = acc/10000 + torque/100000
 		self.resources -= consumption
 		
 	def total_velocity(self):
@@ -67,7 +67,7 @@ class MobileSpaceObject(GeneralSpaceObject):
 		#	speed_step = self.total_velocity() - i * dv
 		#	dx += self.dt * speed_step
 		v_tot = self.total_velocity()
-		dx = self.dt * (n * v_tot - dv * n*(n-1)/2)
+		dx = self.dt * (n * v_tot - dv * n*(n+1)/2)
 		return dx
 		
 	def acc_dec_difference(self):

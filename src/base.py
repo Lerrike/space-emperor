@@ -9,7 +9,7 @@ class Base(InteractableObject):
 		self.costs = [50,120,250,450,700,1000]
 		
 		
-	def interact(self, cs):
+	def interact(self, engine):
 		self.upgrade_level()
 		self.sprites[self.level-1].visible = False
 		self.sprites[self.level].visible = True

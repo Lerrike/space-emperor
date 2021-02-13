@@ -172,3 +172,4 @@ def init_map(self, order):
 			size = 4
 		circle = pyglet.shapes.Arc(100, 100, size, color=color, batch=self.batch_UI, group=order)
 		self.map_static.append([object, circle])
+
