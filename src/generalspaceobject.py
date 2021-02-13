@@ -3,10 +3,11 @@ from enumerations import *
 
 class GeneralSpaceObject():
 	def __init__(self):
-		self.description = Description.Null
+		self.description = EngineList.Null
 		self.x = 0
 		self.y = 0
 		self.angle = 0
+		self.sprites = 0
 		self.sprite = 0
 		self.resources = 0
 		self.created = 0
@@ -43,8 +44,19 @@ class GeneralSpaceObject():
 	def set_resources(self, amount):
 		self.resources = amount
 		
-	def set_exist(self, value, object, engine):
+	def set_exist(self, value, engine):
 		self.exists = value
-		self.sprites[self.level].visible = value
-		engine.add_to_all_objects(object)
-		object.set_created([1,1,3300])
+		if self.sprites:
+			self.sprites[self.level].visible = value
+		elif self.sprite:
+			self.sprite.visible = value
+		self.set_created(engine.get_date())
+		
+		engine.add_all_objects(self)
+		type = self.get_description()
+		if type == EngineList.Static:
+			engine.add_static(self)
+		elif type == EngineList.Interactable:
+			engine.add_interactable(self)
+		elif type == EngineList.AI:
+			engine.add_ai(self)

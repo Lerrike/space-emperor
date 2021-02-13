@@ -8,6 +8,7 @@ class MobileSpaceObject(GeneralSpaceObject):
 		self.y_vel = 0
 		self.ang_vel = 0
 		self.acc = 0
+		self.level = 0
 		
 		self.max_resources = 0
 		self.resources = 0

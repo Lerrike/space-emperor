@@ -2,14 +2,15 @@ import math
 from commandership import CommanderShip
 from homeplanet import HomePlanet
 from moon import Moon
+from enumerations import *
 
 class GameEngine():
 	def __init__(self, dt):
 		self.dt = dt
 		self.all_objects = []
-		self.static_objects = []
+		self.static = []
 		self.interactable = []
-		self.ai_objects = []
+		self.ai = []
 		
 		self.day = 1
 		self.month = 1
@@ -24,18 +25,24 @@ class GameEngine():
 		
 		self.homeplanet = HomePlanet()
 		self.all_objects.append(self.homeplanet)
-		self.static_objects.append(self.homeplanet)
+		self.static.append(self.homeplanet)
 		self.homeplanet.init_(self)
 		
 		self.moon = Moon()
 		self.all_objects.append(self.moon)
-		self.static_objects.append(self.moon)
+		self.static.append(self.moon)
 		
-	def add_to_all_objects(self, object):
+	def add_all_objects(self, object):
 		self.all_objects.append(object)
 		
-	def add_to_interactable(self, object):
+	def add_interactable(self, object):
 		self.interactable.append(object)
+		
+	def add_static(self, object):
+		self.static.append(object)
+		
+	def add_ai(self,object):
+		self.ai.append(object)
 		
 	def get_cs(self):
 		return self.commandership
@@ -47,13 +54,13 @@ class GameEngine():
 		return self.all_objects
 		
 	def get_static_objects(self):
-		return self.static_objects
+		return self.static
 		
-	def get_interactable_objects(self):
+	def get_interactable(self):
 		return self.interactable
 		
-	def get_ai_objects(self):
-		return self.ai_objects
+	def get_ai(self):
+		return self.ai
 		
 	def set_window(self, window):
 		self.window = window

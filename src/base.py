@@ -1,4 +1,5 @@
 from interactableobject import InteractableObject
+from enumerations import *
 
 class Base(InteractableObject):
 	def __init__(self, max, x, y, homeplanet):

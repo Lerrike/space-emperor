@@ -5,11 +5,8 @@ class Side(Enum):
 	Neutral = 2
 	Enemy = 3
 	
-class Description(Enum):
+class EngineList(Enum):
 	Null = 0
-	Homeplanet = 1
-	Moon = 2
-	Asteroid = 3
-	Hostilebase = 4
-	HostileShip = 5
-	FriendlyShip = 6
+	Static = 1
+	Interactable = 2
+	AI = 3

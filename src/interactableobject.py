@@ -1,10 +1,12 @@
 from generalspaceobject import GeneralSpaceObject
+from enumerations import *
 
 class InteractableObject(GeneralSpaceObject):
 	def __init__(self, max, x, y):
 		super().__init__()
 		self.name = "Nothing"
 		self.intersection = "DoNothing"
+		self.description = EngineList.Interactable
 		self.x = x
 		self.y = y
 		self.load = 0
@@ -34,6 +36,9 @@ class InteractableObject(GeneralSpaceObject):
 		self.load += 1
 		return False
 		
+	def interact(self, cs):
+		pass
+		
 	def get_interaction_cost(self):
 		return self.costs[self.level]
 			
@@ -52,7 +57,4 @@ class InteractableObject(GeneralSpaceObject):
 		
 	def reset_load(self):
 		self.load = 0
-		
-	def interact(self, cs):
-		pass
 		

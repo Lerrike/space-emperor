@@ -168,7 +168,7 @@ def init_map(self, order):
 	for object in self.engine.get_static_objects():
 		color = (0,100,255)
 		size = 3
-		if Description.Homeplanet == object.get_description():
+		if EngineList.Static == object.get_description():
 			color = (0, 255, 0)
 			size = 4
 		circle = pyglet.shapes.Arc(100, 100, size, color=color, batch=self.batch_UI, group=order)

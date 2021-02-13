@@ -9,15 +9,14 @@ class HomePlanet(StaticSpaceObject):
 		super().__init__()
 		self.x = 0
 		self.y = 160
-		self.description = Description.Homeplanet
 		
 		self.level = 0
 		
 		
 	def init_(self, engine):
 		self.base = Base(6, self.x,self.y, self)
-		engine.add_to_all_objects(self.base)
-		engine.add_to_interactable(self.base)
+		engine.add_all_objects(self.base)
+		engine.add_interactable(self.base)
 		
 		self.basemine = Basemine(0,self.x,self.y + 180)
 		self.basemine.set_level(0)
@@ -37,8 +36,5 @@ class HomePlanet(StaticSpaceObject):
 	def level_action(self, engine):
 		level = self.base.get_level()
 		if level == 1:
-			self.basemine.set_exist(True, self.basemine, engine)
-			engine.add_to_interactable(self.basemine)
-			self.factory.set_exist(True, self.factory, engine)
-			engine.add_to_interactable(self.factory)
-		
+			self.basemine.set_exist(True, engine)
+			self.factory.set_exist(True, engine)

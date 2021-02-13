@@ -8,7 +8,6 @@ class Moon(StaticSpaceObject):
 		super().__init__()
 		self.x = 10000
 		self.y = 160
-		self.description = Description.Moon
 		
 		self.level = 0
 		
