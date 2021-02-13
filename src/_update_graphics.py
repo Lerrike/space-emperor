@@ -9,8 +9,7 @@ def update_text(self):
 	CS = self.engine.commandership
 	[x_pos, y_pos] = CS.get_pos()
 	ang = CS.get_angle()
-	x_vel = CS.get_x_vel()
-	y_vel = CS.get_y_vel()
+	[x_vel, y_vel] = CS.get_velocity()
 	total_vel = CS.total_velocity()
 	ang_vel = CS.get_ang_vel()
 	acc = CS.get_acc()

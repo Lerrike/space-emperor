@@ -84,7 +84,8 @@ class GraphicsWindow(pyglet.window.Window):
 				commandership.acc_action()
 				self.exhaust_sprite.visible = True
 		elif down_pressed:
-			speed = math.fabs(commandership.get_x_vel()) + math.fabs(commandership.get_y_vel())
+			[x_vel, y_vel] = commandership.get_velocity()
+			speed = math.fabs(x_vel) + math.fabs(y_vel)
 			if speed == 0 and self.down_mem == 0:
 				self.engine.action()
 			else:

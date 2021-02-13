@@ -20,12 +20,10 @@ class MobileSpaceObject(GeneralSpaceObject):
 		
 	def get_velocity(self):
 		return [self.x_vel, self.y_vel]
-	
-	def get_x_vel(self):
-		return self.x_vel
 		
-	def get_y_vel(self):
-		return self.y_vel
+	def total_velocity(self):
+		velocity = math.sqrt(self.x_vel**2 + self.y_vel**2)
+		return velocity
 		
 	def get_ang_vel(self):
 		return self.ang_vel
@@ -44,10 +42,6 @@ class MobileSpaceObject(GeneralSpaceObject):
 		torque = math.fabs(self.ang_vel)
 		consumption = acc/10000 + torque/100000
 		self.resources -= consumption
-		
-	def total_velocity(self):
-		velocity = math.sqrt(self.x_vel**2 + self.y_vel**2)
-		return velocity
 		
 	def dv(self, acc):
 		return acc*self.dt
