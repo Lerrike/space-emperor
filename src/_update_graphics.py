@@ -7,8 +7,7 @@ def update_orientation(self):
 		
 def update_text(self):
 	CS = self.engine.commandership
-	x_pos = CS.get_x()
-	y_pos = CS.get_y()
+	[x_pos, y_pos] = CS.get_pos()
 	ang = CS.get_angle()
 	x_vel = CS.get_x_vel()
 	y_vel = CS.get_y_vel()
@@ -38,8 +37,7 @@ def update_text(self):
 	
 def update_view(self):
 	CS = self.engine.commandership
-	x_cs = CS.get_x()
-	y_cs = CS.get_y()
+	[x_cs, y_cs] = CS.get_pos()
 	ang_cs = CS.get_angle()
 	self.camera.update_camera_posang(x_cs, y_cs, ang_cs)
 	
@@ -65,8 +63,7 @@ def update_space_objects(self):
 	for object in self.engine.get_objects():
 		sprite = object.get_sprite()
 		if self.camera.is_on_view(object):
-			x = object.get_x()
-			y = object.get_y()
+			[x, y] = object.get_pos()
 			angle = object.get_angle()
 			x, y, angle = self.camera.get_posang_in_view(x, y, angle)
 			sprite.x = x
@@ -82,8 +79,7 @@ def update_map(self):
 		object = tuple[0]
 		circle = tuple[1]
 		if self.map.is_on_view(object):
-			x = object.get_x()
-			y = object.get_y()
+			[x, y] = object.get_pos()
 			x, y, angle = self.map.get_posang_in_view(x, y, 0)
 			circle.x = x
 			circle.y = y

@@ -122,8 +122,9 @@ def init_conditional(self, order0, order1, order2):
 	exhaust_1_image = pyglet.resource.image('exhaust_fumes_1_4x6.png')
 	exhaust_2_image = pyglet.resource.image('exhaust_fumes_2_4x6.png')
 	self.center_image(exhaust_1_image)
-	x = self.engine.commandership.get_x()
-	y = self.engine.commandership.get_y() - 8 - 3
+	pos = self.engine.get_cs().get_pos()
+	x = pos[0]
+	y = pos[1] - 8 - 3
 	angle = self.engine.commandership.get_angle()
 	x,y,angle = self.camera.get_posang_in_view(x, y, angle)
 	self.exhaust_sprite = pyglet.sprite.Sprite(img=exhaust_1_image, x=x, y=y, batch=self.batch_mobile, group=order0)

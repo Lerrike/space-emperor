@@ -54,9 +54,6 @@ class GameEngine():
 	def get_ai_objects(self):
 		return self.ai_objects
 		
-	def get_intelliget_mobile_objects(self):
-		return self.intelligent_mobile_objects
-		
 	def set_window(self, window):
 		self.window = window
 		
