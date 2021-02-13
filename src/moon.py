@@ -4,7 +4,7 @@ from base import Base
 from basemine import Basemine
 
 class Moon(StaticSpaceObject):
-	def __init__(self, engine):
+	def __init__(self):
 		super().__init__()
 		self.x = 10000
 		self.y = 160

@@ -22,11 +22,12 @@ class GameEngine():
 		self.commandership = CommanderShip(self.dt)
 		self.all_objects.append(self.commandership)
 		
-		self.homeplanet = HomePlanet(self)
+		self.homeplanet = HomePlanet()
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
+		self.homeplanet.init_(self)
 		
-		self.moon = Moon(self)
+		self.moon = Moon()
 		self.all_objects.append(self.moon)
 		self.static_objects.append(self.moon)
 		

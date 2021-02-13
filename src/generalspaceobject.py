@@ -43,6 +43,8 @@ class GeneralSpaceObject():
 	def set_resources(self, amount):
 		self.resources = amount
 		
-	def set_exist(self, value):
+	def set_exist(self, value, object, engine):
 		self.exists = value
 		self.sprites[self.level].visible = value
+		engine.add_to_all_objects(object)
+		object.set_created([1,1,3300])

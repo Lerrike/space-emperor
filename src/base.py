@@ -13,7 +13,7 @@ class Base(InteractableObject):
 		self.upgrade_level()
 		self.sprites[self.level-1].visible = False
 		self.sprites[self.level].visible = True
-		self.homeplanet.level_action()
+		self.homeplanet.level_action(engine)
 		
 	def get_interaction_cost(self):
 		return self.costs[self.level]
