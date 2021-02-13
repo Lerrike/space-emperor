@@ -2,8 +2,8 @@ from interactableobject import InteractableObject
 from engineerunit import EngineerUnit
 
 class BuilderFactory(InteractableObject):
-	def __init__(self, max, exists, x, y):
-		super().__init__(max, exists, x, y)
+	def __init__(self, max, x, y):
+		super().__init__(max, x, y)
 		self.name = "Builder Factory"
 		self.interaction = "Make a Engineering Unit"
 		self.costs = [25]

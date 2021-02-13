@@ -1,8 +1,8 @@
 from interactableobject import InteractableObject
 
 class Base(InteractableObject):
-	def __init__(self, max, exists, x, y, homeplanet):
-		super().__init__(max, exists, x, y)
+	def __init__(self, max, x, y, homeplanet):
+		super().__init__(max, x, y)
 		self.name = "Base"
 		self.interaction = "Upgrade"
 		self.homeplanet = homeplanet

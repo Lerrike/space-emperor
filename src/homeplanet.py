@@ -14,14 +14,14 @@ class HomePlanet(StaticSpaceObject):
 		self.level = 0
 		self.engine = engine
 		
-		self.base = Base(6, True, self.x,self.y, self)
+		self.base = Base(6, self.x,self.y, self)
 		self.engine.add_to_all_objects(self.base)
 		self.engine.add_to_interactable(self.base)
 		
-		self.basemine = Basemine(0,False,self.x,self.y + 180)
+		self.basemine = Basemine(0,self.x,self.y + 180)
 		self.basemine.set_level(0)
 		
-		self.factory = BuilderFactory(0,False,self.x + 180,self.y)
+		self.factory = BuilderFactory(0,self.x + 180,self.y)
 		self.factory.set_level(0)
 		
 	def get_level(self):

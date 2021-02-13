@@ -10,6 +10,7 @@ class GeneralSpaceObject():
 		self.sprite = 0
 		self.resources = 0
 		self.created = 0
+		self.exists = False
 		
 	def get_description(self):
 		return self.description
@@ -41,3 +42,7 @@ class GeneralSpaceObject():
 			
 	def set_resources(self, amount):
 		self.resources = amount
+		
+	def set_exist(self, value):
+		self.exists = value
+		self.sprites[self.level].visible = value

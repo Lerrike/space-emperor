@@ -1,7 +1,7 @@
 from generalspaceobject import GeneralSpaceObject
 
 class InteractableObject(GeneralSpaceObject):
-	def __init__(self, max, exists, x, y):
+	def __init__(self, max, x, y):
 		super().__init__()
 		self.name = "Nothing"
 		self.intersection = "DoNothing"
@@ -10,7 +10,6 @@ class InteractableObject(GeneralSpaceObject):
 		self.load = 0
 		self.level = 0
 		self.max_level = max
-		self.exists = exists
 		self.sprites = []
 		self.costs = -1
 		
@@ -57,6 +56,3 @@ class InteractableObject(GeneralSpaceObject):
 	def interact(self, cs):
 		pass
 		
-	def set_exist(self, value):
-		self.exists = value
-		self.sprites[self.level].visible = value
