@@ -16,7 +16,7 @@ class HomePlanet(StaticSpaceObject):
 		
 		self.base = Base(6, True, self.x,self.y, self)
 		self.engine.add_to_all_objects(self.base)
-		self.engine.add_to_interactable_objects(self.base)
+		self.engine.add_to_interactable(self.base)
 		
 		self.basemine = Basemine(0,False,self.x,self.y + 180)
 		self.basemine.set_level(0)
@@ -38,11 +38,11 @@ class HomePlanet(StaticSpaceObject):
 		if level == 1:
 			self.basemine.set_exist(True)
 			self.engine.add_to_all_objects(self.basemine)
-			self.engine.add_to_interactable_objects(self.basemine)
+			self.engine.add_to_interactable(self.basemine)
 			self.basemine.set_created(self.engine.get_date())
 			
 			self.factory.set_exist(True)
 			self.engine.add_to_all_objects(self.factory)
-			self.engine.add_to_interactable_objects(self.factory)
+			self.engine.add_to_interactable(self.factory)
 			self.factory.set_created(self.engine.get_date())
 		

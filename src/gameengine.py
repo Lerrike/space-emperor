@@ -33,7 +33,7 @@ class GameEngine():
 	def add_to_all_objects(self, object):
 		self.all_objects.append(object)
 		
-	def add_to_interactable_objects(self, object):
+	def add_to_interactable(self, object):
 		self.interactable.append(object)
 		
 	def get_cs(self):
