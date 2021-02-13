@@ -26,7 +26,7 @@ class GraphicsWindow(pyglet.window.Window):
 		x_center = 150
 		y_center = 150
 		size = 300
-		scaling = 10
+		scaling = 100
 		self.map = Camera(x_center, y_center, size, scaling)
 		
 		self.batch_map = pyglet.graphics.Batch()

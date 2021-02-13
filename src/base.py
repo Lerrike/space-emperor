@@ -9,11 +9,11 @@ class Base(InteractableObject):
 		self.costs = [50,120,250,450,700,1000]
 		
 		
-	def interact(self, cs, date):
+	def interact(self, cs):
 		self.upgrade_level()
 		self.sprites[self.level-1].visible = False
 		self.sprites[self.level].visible = True
-		self.homeplanet.level_action(date)
+		self.homeplanet.level_action()
 		
 	def get_interaction_cost(self):
 		return self.costs[self.level]

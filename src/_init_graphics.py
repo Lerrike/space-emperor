@@ -148,7 +148,7 @@ def init_mobile_objects(self, order):
 def init_UI_overlay(self, order):
 	self.time_label = pyglet.text.Label(text="day/month/year", x=10, y=720-20,batch = self.batch_UI, group=order)
 	self.position_label = pyglet.text.Label(text="x_pos: 0, y_pos:0, ang=0", x=10, y=720-40,batch = self.batch_UI, group=order)
-	self.velocity_label = pyglet.text.Label(text="x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-60,batch = self.batch_UI, group=order)
+	self.velocity_label = pyglet.text.Label(text="total_vel: 0, x_vel: 0, y_vel:0, ang_vel=0", x=10, y=720-60,batch = self.batch_UI, group=order)
 	self.resource_label = pyglet.text.Label(text="Almanite:", x=10, y=720-100,batch = self.batch_UI, group=order)
 	self.interaction_label = pyglet.text.Label(text="Interactable:", x=10, y=720-120,batch = self.batch_UI, group=order)
 	
@@ -160,13 +160,15 @@ def init_map(self, order):
 	center = self.map.get_center()
 	size = self.map.get_size()
 	self.map_circle = pyglet.shapes.Arc(center[0], center[1], size/2, color=(50, 0, 255), batch=self.batch_UI, group=order)
-	self.map_cs = pyglet.shapes.Arc(center[0], center[1], 1, color=(50, 0, 255), batch=self.batch_UI, group=order)
+	self.map_cs = pyglet.shapes.Arc(center[0], center[1], 2, color=(50, 0, 255), batch=self.batch_UI, group=order)
+	self.map_vector = pyglet.shapes.Line(center[0], center[1], center[0], center[1], color=(50, 0, 255), batch=self.batch_UI, group=order)
+	self.map_vector_half = pyglet.shapes.Arc(center[0], center[1], 2, color=(100, 100, 255), batch=self.batch_UI, group=order)
 	self.map_static = []
 	for object in self.engine.get_static_objects():
 		color = (0,100,255)
-		size = 2
+		size = 3
 		if Description.Homeplanet == object.get_description():
 			color = (0, 255, 0)
-			size = 3
+			size = 4
 		circle = pyglet.shapes.Arc(100, 100, size, color=color, batch=self.batch_UI, group=order)
 		self.map_static.append([object, circle])

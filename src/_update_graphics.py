@@ -1,4 +1,5 @@
 import pyglet
+import math
 
 def update_orientation(self):
 		#Negative, because rotation in opposite direction
@@ -11,6 +12,7 @@ def update_text(self):
 	ang = CS.get_angle()
 	x_vel = CS.get_x_vel()
 	y_vel = CS.get_y_vel()
+	total_vel = CS.total_velocity()
 	ang_vel = CS.get_ang_vel()
 	acc = CS.get_acc()
 	date = self.engine.get_date()
@@ -29,7 +31,7 @@ def update_text(self):
 		interaction = object.get_interaction_name()
 	self.time_label.text = "day/month/year:{}/{}/{}".format(date[0],date[1],date[2])
 	self.position_label.text = "x_pos: {:.2f}, y_pos:{:.2f}, ang={}".format(x_pos,y_pos,ang)
-	self.velocity_label.text = "x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={}".format(x_vel,y_vel,acc, ang_vel)
+	self.velocity_label.text = "total_vel: {:.2f}, x_vel: {:.2f}, y_vel:{:.2f}, acc:{:.2f}, ang_vel={:.2f}".format(total_vel, x_vel,y_vel,acc, ang_vel)
 	self.resource_label.text = "Almanite:{:.2f}/{}".format(resource_amount,max_resources)
 	self.interaction_label.text = "Interactable:{}, {}:{:.2f}".format(name, interaction, amount)
 	
@@ -72,7 +74,8 @@ def update_space_objects(self):
 			sprite.rotation = angle
 			
 def update_map(self):
-	[x_cs, y_cs] = self.engine.commandership.get_pos()
+	cs = self.engine.commandership
+	[x_cs, y_cs] = cs.get_pos()
 	ang_cs = self.engine.commandership.get_angle()
 	self.map.update_camera_posang(x_cs, y_cs, ang_cs)
 	for tuple in self.map_static:
@@ -84,3 +87,19 @@ def update_map(self):
 			x, y, angle = self.map.get_posang_in_view(x, y, 0)
 			circle.x = x
 			circle.y = y
+	center = self.map.get_center()
+	vel = cs.total_velocity()
+	if vel > 0:
+		vel = cs.get_velocity()
+		vel = [vel[0], vel[1]]
+		angle_of_velocity = math.atan2(vel[0],vel[1])
+		angle = angle_of_velocity - math.radians(ang_cs)
+		dx = cs.optimal_brakepoint_distance(cs.get_max_dec())
+		L = self.map.scale(dx)
+		x = L * math.sin(angle)
+		y = L * math.cos(angle)
+		self.map_vector.x2 = center[0] + x
+		self.map_vector.y2 = center[1] + y
+		diff = cs.acc_dec_difference()
+		self.map_vector_half.x = center[0] + x/diff
+		self.map_vector_half.y = center[0] + y/diff

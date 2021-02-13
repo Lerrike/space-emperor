@@ -2,15 +2,14 @@ import math
 from mobilespaceobject import MobileSpaceObject
 
 class CommanderShip(MobileSpaceObject):
-	def __init__(self):
-		super().__init__()
+	def __init__(self, dt):
+		super().__init__(dt)
 		self.object_in_closerange = 0
-		self.mass = 50
 		self.max_resources = 1000
 		self.resources = 1000
-		self.max_acc_thrust = 4
-		self.max_dec_thrust = 2
-		self.max_ang_vel = 30
+		self.max_acc_thrust = 400
+		self.max_dec_thrust = 200
+		self.max_ang_vel = 200
 		
 	def get_object_in_closerange(self):
 		return self.object_in_closerange
@@ -28,19 +27,19 @@ class CommanderShip(MobileSpaceObject):
 			return False
 		
 	def acc_action(self):
-		self.acc = 8
+		self.acc = self.max_acc_thrust
 		self.use_energy()
 		
 	def decelerate(self):
-		self.acc = -4
+		self.acc = -self.max_dec_thrust
 		self.use_energy()
 		
 	def turn_left(self):
-		self.ang_vel = -30
+		self.ang_vel = -self.max_ang_vel
 		self.use_energy()
 		
 	def turn_right(self):
-		self.ang_vel = 30
+		self.ang_vel = self.max_ang_vel
 		self.use_energy()
 		
 	def add_resources(self, amount):

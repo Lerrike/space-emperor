@@ -26,9 +26,9 @@ class InteractableObject(GeneralSpaceObject):
 	def set_level_sprite(self, sprite):
 		self.sprites.append(sprite)
 		
-	def load_interaction(self, cs, date):
+	def load_interaction(self, cs):
 		if self.load >= 100:
-			self.interact(cs, date)
+			self.interact(cs)
 			self.load = 0
 			return True
 		self.load += 1

@@ -16,11 +16,11 @@ class GameEngine():
 		self.year = 3300
 		self.date = [self.day, self.month, self.year]
 		
-		self.commandership = CommanderShip()
+		self.commandership = CommanderShip(dt)
 		self.all_objects.append(self.commandership)
 		self.mobile_objects.append(self.commandership)
 		
-		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects)
+		self.homeplanet = HomePlanet(self.all_objects, self.interactable_objects, self)
 		self.all_objects.append(self.homeplanet)
 		self.static_objects.append(self.homeplanet)
 		
@@ -92,7 +92,7 @@ class GameEngine():
 			cost = object.get_interaction_cost()
 			is_possible = self.commandership.get_resources() > cost
 			if is_possible:
-				done = object.load_interaction(self.commandership, self.date)
+				done = object.load_interaction(self.commandership)
 				if done:
 					self.commandership.use_resources(cost)
 				
