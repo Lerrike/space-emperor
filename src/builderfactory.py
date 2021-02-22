@@ -11,7 +11,8 @@ class BuilderFactory(InteractableObject):
 		self.angle = 90
 		
 	def interact(self, engine):
-		unit = EngineerUnit(engine.dt)
-		engine.get_window().add_engineerunit(unit)
-		unit.set_exist(True, engine)
-		unit.set_pos(self.get_pos())
+		pass
+		#unit = EngineerUnit(engine.dt)
+		#engine.get_window().add_engineerunit(unit)
+		#unit.set_exist(True, engine)
+		#unit.set_pos(self.get_pos())

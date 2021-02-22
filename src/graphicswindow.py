@@ -8,7 +8,6 @@ class GraphicsWindow(pyglet.window.Window):
 		init_conditional, init_mobile_objects, init_UI_overlay, init_map
 	from _update_graphics import update_orientation, update_text, update_view, update_background, update_space_objects,\
 		update_map
-	from _add_objects import add_engineerunit
 	
 	def __init__(self, engine,dt):
 		self.screen_width = 1280
